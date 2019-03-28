@@ -1,0 +1,20 @@
+/* Classes styles */
+
+.card-link {
+    float: right;
+}
+
+.toast {
+    float: right;
+    border: 1px solid black;
+}
+
+/* Single elements styles */
+
+#login_button {
+    float: right;
+}
+
+#sign_up_button {
+    float: right;
+}
