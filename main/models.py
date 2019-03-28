@@ -4,7 +4,6 @@ from django.utils import timezone
 
 
 # Create your models here.
-
 class Grammar(models.Model):
     grammar_productions = models.TextField()
     grammar_used_parser = models.CharField(max_length = 20)
