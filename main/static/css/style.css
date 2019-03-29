@@ -1,7 +1,17 @@
 /* Classes styles */
+.card {
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: .5rem;
+    box-shadow: 0.1rem 0.50rem 0.75rem rgba(0,0,0,.2);
+}
 
 .card-link {
     float: right;
+}
+
+.navbar-brand {
+    padding-left: 10px;
+    font-size: 26px;
 }
 
 .nav-item {
@@ -11,7 +21,7 @@
 
 .toast {
     position: absolute;
-    top: 1rem !important;
+    top: 5rem !important;
     right: 1rem !important;
     height: 70px;
     width: 300px;
@@ -44,6 +54,7 @@
 #close-message-button {
     padding-right: 8px;
     padding-top: 3px;
+
 }
 
 #lr0-card-div {
