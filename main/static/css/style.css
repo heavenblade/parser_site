@@ -4,17 +4,74 @@
     float: right;
 }
 
+.nav-item {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 .toast {
-    float: right;
-    border: 1px solid black;
+    position: absolute;
+    top: 1rem !important;
+    right: 1rem !important;
+    height: 70px;
+    width: 300px;
+    overflow: hidden;
+    font-size: .1rem;
+    background-color: rgba(255,255,255,.85);
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: .5rem;
+    box-shadow: 0.1rem 0.50rem 0.75rem rgba(0,0,0,.2);
+}
+
+.toast-body {
+    padding: 10px;
+    text-align: center;
+    padding-top: 25px;
 }
 
 /* Single elements styles */
 
-#login_button {
-    float: right;
+#user_icon {
+    display: inline-block;
+}
+
+#user_link {
+    display: inline-block;
+    padding-left: 0;
+}
+
+#close-message-button {
+    padding-right: 8px;
+    padding-top: 3px;
+}
+
+#lr0-card-div {
+    padding: 20px;
+}
+
+#slr0-card-div {
+    padding: 20px;
+}
+
+#lr1-card-div {
+    padding: 20px;
+}
+
+#lalr1-card-div {
+    padding: 20px;
+}
+
+#ll1-card-div {
+    padding: 20px;
+}
+
+/* #login_button {
+    position: absolute;
+    right: 0;
 }
 
 #sign_up_button {
-    float: right;
-}
+    position: absolute;
+    right: 0;
+} */
