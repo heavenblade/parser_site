@@ -48,3 +48,18 @@ def login_request(request):
 
 def user_page(request):
     return(render(request = request, template_name = "main/user_page.html"))
+
+def lr0_parser(request):
+    return(render(request = request, template_name = "main/lr0_parser_page.html"))
+
+def slr0_parser(request):
+    return(render(request = request, template_name = "main/slr0_parser_page.html"))
+
+def lr1_parser(request):
+    return(render(request = request, template_name = "main/lr1_parser_page.html"))
+
+def lalr1_parser(request):
+    return(render(request = request, template_name = "main/lalr1_parser_page.html"))
+
+def ll1_parser(request):
+    return(render(request = request, template_name = "main/ll1_parser_page.html"))
