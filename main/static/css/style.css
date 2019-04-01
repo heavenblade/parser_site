@@ -41,7 +41,15 @@
     padding-top: 25px;
 }
 
+.helptext {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 1.5rem;
+}
+
 /* Single elements styles */
+
+/* Navbar */
 #my_navbar {
     background-color: #71dab8 !important;
 }
@@ -55,12 +63,107 @@
     padding-left: 0;
 }
 
-#close-message-button {
-    padding-right: 8px;
-    padding-top: 3px;
-
+/* Login page */
+#login_page_content {
+    position: absolute;
+    margin-top: 1rem;
+    left: 40%;
 }
 
+#id_password {
+    border-radius: 5px;
+    border-width: 1px;
+    display: block;
+    width: 300px;
+    margin-bottom: 1.5rem;
+}
+
+#id_password:focus {
+    outline: -webkit-focus-ring-color auto 0px !important;
+}
+
+#login_gridCheck {
+    margin-top: .4rem;
+    margin-left: 0;
+}
+
+#login_gridCheck_label {
+    margin-left: 1.3rem;
+}
+
+#login_submit_button {
+    width: 150;
+    float: right;
+}
+
+/* Sign-up page */
+#register_page_content {
+    position: absolute;
+    margin-top: 1rem;
+    left: 40%;
+}
+
+#id_username {
+    border-radius: 5px;
+    border-width: 1px;
+    display: block;
+    width: 300px;
+    margin-bottom: 1.5rem;
+}
+
+#id_username:focus {
+    outline: -webkit-focus-ring-color auto 0px !important;
+}
+
+#id_email {
+    border-radius: 5px;
+    border-width: 1px;
+    display: block;
+    width: 300px;
+    margin-bottom: 1.5rem;
+}
+
+#id_email:focus {
+    outline: -webkit-focus-ring-color auto 0px !important;
+}
+
+#id_password1 {
+    border-radius: 5px;
+    border-width: 1px;
+    display: block;
+    width: 300px;
+}
+
+#id_password1:focus {
+    outline: -webkit-focus-ring-color auto 0px !important;
+}
+
+#id_password2 {
+    border-radius: 5px;
+    border-width: 1px;
+    display: block;
+    width: 300px;
+}
+
+#id_password2:focus {
+    outline: -webkit-focus-ring-color auto 0px !important;
+}
+
+#register_gridCheck {
+    margin-top: .4rem;
+    margin-left: 0;
+}
+
+#register_gridCheck_label {
+    margin-left: 1.3rem;
+}
+
+#register_submit_button {
+    width: 150;
+    float: right;
+}
+
+/* Homepage */
 #lr0-card-div {
     padding: 20px;
 }
@@ -79,4 +182,9 @@
 
 #ll1-card-div {
     padding: 20px;
+}
+
+#close-message-button {
+    padding-right: 8px;
+    padding-top: 3px;
 }

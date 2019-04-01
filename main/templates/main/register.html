@@ -1,14 +1,17 @@
 {% extends "main/home.html" %}
 
 {% block content %}
-    <h4>Login form</h4>
-    <form method ="POST">
-        {% csrf_token %}
-        {{form.as_p}}
-        <input class="form-check-input" type="checkbox" id="gridCheck">
-        <label class="form-check-label" for="gridCheck">Remember me</label>
-        <button type="submit" class="btn btn-primary">Sign in</button>
-    </form>
-
-    <h5>If you already have an account, you can <a href="/login">login</a> here instead.</h5>
+    <div id="register_page_content">
+        <h3>Register a new account</h3>
+        <br>
+        <form method ="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input class="form-check-input" type="checkbox" id="register_gridCheck">
+            <label class="form-check-label" for="gridCheck" id="register_gridCheck_label">Remember me</label>
+            <button type="submit" class="btn btn-primary" id="register_submit_button">Sign in</button>
+        </form>
+        <br>
+        <h6>If you already have an account, you can <a href="/login">login</a> here instead.</h6>
+    </div>
 {% endblock %}

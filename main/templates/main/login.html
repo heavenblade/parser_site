@@ -1,40 +1,17 @@
 {% extends "main/home.html" %}
 
 {% block content %}
-    <form method ="POST">
-        {% csrf_token %}
-        {{form.as_p}}
-        <button type="submit" class="btn btn-primary">Login</button>
-    </form>
-
-    <h4>If you already have an account, you can <a href="/register">register</a> here instead.</h4>
-
-    <div>
-        <form>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="inputEmail4">Email</label>
-                    <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="inputPassword4">Password</label>
-                    <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
-                    <small id="passwordHelpInline" class="text-muted">Must be 8-20 characters long.</small>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="inputPassword4">Re-insert password</label>
-                    <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="form-check">
-
-                </div>
-            </div>
+    <div id="login_page_content">
+        <h3>Login to your account</h3>
+        <br>
+        <form method ="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input class="form-check-input" type="checkbox" id="login_gridCheck">
+            <label class="form-check-label" for="gridCheck" id="login_gridCheck_label">Remember me</label>
+            <button type="submit" class="btn btn-primary" id="login_submit_button">Login</button>
         </form>
+        <br>
+        <h6>If you don't have an account, you can <a href="/register">register</a> here instead.</h6>
     </div>
 {% endblock %}
