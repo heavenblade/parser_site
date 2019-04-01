@@ -10,6 +10,7 @@ urlpatterns = [
     path("logout/", views.logout_request, name = "logout"),
     path("login/", views.login_request, name = "login"),
     path("user/", views.user_page, name = "user"),
+    path("about/", views.about_page, name = "about"),
     path("lr0-parser/", views.lr0_parser, name = "lr0-parser"),
     path("slr0-parser/", views.slr0_parser, name = "slr0-parser"),
     path("lr1-parser/", views.lr1_parser, name = "lr1-parser"),

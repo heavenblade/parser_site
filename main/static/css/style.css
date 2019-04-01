@@ -71,11 +71,11 @@ a.custom-card:hover {
 
 /* Single elements styles */
 
+/* Homepage */
 #page_content_container {
     display: flex;
 }
 
-/* Homepage */
 #bottom_up_title {
     position: absolute;
     top: 10%;
@@ -277,4 +277,10 @@ a.custom-card:hover {
 #register_submit_button {
     width: 150;
     float: right;
+}
+
+/* About page */
+#about_content {
+    margin-left: 10rem;
+    margin-right: 10rem;
 }

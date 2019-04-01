@@ -49,6 +49,9 @@ def login_request(request):
 def user_page(request):
     return(render(request = request, template_name = "main/user_page.html"))
 
+def about_page(request):
+    return(render(request = request, template_name = "main/about_page.html"))
+
 def lr0_parser(request):
     return(render(request = request, template_name = "main/lr0_parser_page.html"))
 
