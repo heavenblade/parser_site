@@ -1,58 +1,72 @@
 {% extends "main/home.html" %}
 
+{% load static %}
+
 {% block content %}
-    <h3>List of available bottom-up parsers:</h3>
-    <div class="content container">
+    <h3 id="bottom_up_title">List of available bottom-up parsers:</h3>
+    <div id="bottom_up_cards">
         <div class="row">
-            <div id="lr0-card-div">
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">LR(0) Parser</h5>
-                        <a href="/lr0-parser" class="card-link">Card link</a>
+            <a href="/lr0-parser" class="custom-card">
+                <div id="lr0-card-div">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">LR(0) Parser</h5>
+                            <input class="btn btn-primary" value="Let's parse!" onclick="window.location.href='/lr0-parser'" id="lr0_card_button"/>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div id="slr0-card-div">
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">SLR(0) Parser</h5>
-                        <a href="/slr0-parser" class="card-link">Card link</a>
+            </a>
+            <a href="/slr0-parser" class="custom-card">
+                <div id="slr0-card-div">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">SLR(0) Parser</h5>
+                            <input class="btn btn-primary" value="Let's parse!" onclick="window.location.href='/slr0-parser'" id="slr0_card_button"/>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="row">
-            <div id="lr1-card-div">
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">LR(1) Parser</h5>
-                        <a href="/lr1-parser" class="card-link">Card link</a>
+            <a href="/lr1-parser" class="custom-card">
+                <div id="lr1-card-div">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">LR(1) Parser</h5>
+                            <input class="btn btn-primary" value="Let's parse!" onclick="window.location.href='/lr1-parser'" id="lr1_card_button"/>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div id="lalr1-card-div">
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">LALR(1) Parser</h5>
-                        <a href="/lalr1-parser" class="card-link">Card link</a>
+            </a>
+            <a href="/lalr1-parser" class="custom-card">
+                <div id="lalr1-card-div">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">LALR(1) Parser</h5>
+                            <input class="btn btn-primary" value="Let's parse!" onclick="window.location.href='/lalr1-parser'" id="lalr1_card_button"/>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
     <br>
-    <h3>List of available top-down parsers:</h3>
-    <div class="content container">
+    <h3 id="top_down_title">List of available top-down parsers:</h3>
+    <div id="top_down_cards">
         <div class="row">
-            <div id="ll1-card-div">
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">LL(1) Parser</h5>
-                        <p class="card-text">This is an implementation of LL(1)-Parser</p>
-                        <a href="/ll1-parser" class="card-link">Card link</a>
+            <a href="/ll1-parser" class="custom-card">
+                <div id="ll1-card-div">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" style="z-index: 2;">LL(1) Parser</h5>
+                            <input class="btn btn-primary" value="Let's parse!" onclick="window.location.href='/ll1-parser'" id="ll1_card_button"/>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 {% endblock %}
+
+<!-- <p class="card-text" style="z-index: 1;">This is an implementation of LL(1)-Parser</p>
+    <img src="{% static 'img/graph.png' %}" id="grap_pic_cards"> -->
