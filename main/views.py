@@ -4,7 +4,7 @@ from .models import Grammar
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
-from .forms import MyRegistrationForm
+from .forms import MyRegistrationForm, MyGrammarInsertForm
 
 # Views
 def homepage(request):
@@ -53,7 +53,18 @@ def about_page(request):
     return(render(request = request, template_name = "main/about_page.html"))
 
 def lr0_parser(request):
-    return(render(request = request, template_name = "main/lr0_parser_page.html"))
+    if(request.method == "POST"):
+        form = MyGrammarInsertForm(user = request.user)
+        if (form.is_valid()):
+            grammar = form.save(request)
+            return(redirect("main:lr0_grammar_parsing"))
+        else:
+            messages.error(request, "Make sure to insert the grammar")
+    form = MyGrammarInsertForm
+    return(render(request = request, template_name = "main/lr0_parser_page.html", context = {"form": form}))
+
+def lr0_grammar_parsing(request):
+    return(render(request = request, template_name = "main/lr0_grammar_parsing.html"))
 
 def slr0_parser(request):
     return(render(request = request, template_name = "main/slr0_parser_page.html"))
