@@ -1,3 +1,4 @@
+import re
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -27,6 +28,14 @@ class MyRegistrationForm(UserCreationForm):
             'email': _('Insert valid email'),
         }
 
+    def clean_email(self, *args, **kwargs):
+        email = self.cleaned_data.get('email')
+        valid_email = re.match(r"^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$", email)
+        if (valid_email):
+            return(email)
+        else:
+            raise forms.ValidationError("Insert a valid email")
+
     def save(self, commit = True):
         user = super(MyRegistrationForm, self).save(commit = False)
         user.email = self.cleaned_data["email"]
@@ -34,31 +43,61 @@ class MyRegistrationForm(UserCreationForm):
             user.save()
         return(user)
 
-class MyGrammarInsertForm(forms.ModelForm):
-    grammar = forms.CharField(required = True)
 
-    def __init__(self, user, *args, **kwargs):
-        super(MyGrammarInsertForm, self).__init__(*args, **kwargs)
-        self.user = kwargs.pop('user', None)
-        self.fields['grammar'].label = ""
+class MyGrammarInsertForm(forms.Form):
+    grammar_productions = forms.CharField(
+        label = '',
+        required = True,
+        widget = forms.Textarea(
+            attrs = {
+                "id": "lr0_prod_text_area",
+                "placeholder": "S->AB\nA->a\nB->#",
+                "rows": 10,
+                "cols": 20
+            }
+        )
+    )
 
     class Meta:
         model = Grammar
 
-        fields = [
-            'grammar',
-        ]
+    def clean_grammar_productions(self, *args, **kwargs): ### Checks for valid grammar input
+        grammar_prods = self.cleaned_data.get('grammar_productions')
+        productions = grammar_prods.split('\n')
+        valid_grammar = True
+        for prod in productions:
+            if not (prod[0].isupper()):
+                valid_grammar = False
+                break
+        if (valid_grammar):
+            return(grammar_prods)
+        else:
+            raise forms.ValidationError("You inserted a non valid grammar")
 
-        widgets = {
-            'grammar': forms.Textarea(),
-        }
-
-    def save(self, commit = True):
-        grammar = super(MyGrammarInsertForm, self).save(commit = False)
-        grammar.grammar_productions = self.cleaned_data["grammar"]
-        grammar.grammar_used_parser = "lr0"
-        grammar.grammar_parsing_table_entries = "WIP"
-        grammar.grammar_user_submitter = user
-        if (commit):
-            grammar.save()
-        return(grammar)
+    # def __init__(self, user, *args, **kwargs):
+    #     super(MyGrammarInsertForm, self).__init__(*args, **kwargs)
+    #     self.user = kwargs.pop('user', None)
+    #     self.fields['grammar'].label = ""
+    #
+    # class Meta:
+    #     model = Grammar
+    #
+    #     fields = [
+    #         'grammar_productions',
+    #     ]
+    #
+    # def save(self, commit = True):
+    #     my_grammar = super(MyGrammarInsertForm, self).save(commit = False)
+    #     my_grammar.grammar_productions = self.cleaned_data["grammar"]
+    #     my_grammar.grammar_used_parser = "lr0"
+    #     my_grammar.grammar_parsing_table_entries = "WIP"
+    #     my_grammar.grammar_user_submitter = user
+    #     if (commit):
+    #         my_grammar.save()
+    #     return(my_grammar)
+    #
+    # def clean(self):
+    #     cleaned_data = super(MyGrammarInsertForm, self).clean()
+    #     grammar = cleaned_data.get('grammar')
+    #     if not grammar:
+    #         raise forms.ValidationError('You have to insert a grammar!')

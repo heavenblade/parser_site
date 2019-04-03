@@ -6,7 +6,7 @@
         <br>
         <form method ="POST">
             {% csrf_token %}
-            {{form.as_p}}
+            {{ reg_form.as_p }}
             <input class="form-check-input" type="checkbox" id="register_gridCheck">
             <label class="form-check-label" for="gridCheck" id="register_gridCheck_label">Remember me</label>
             <button type="submit" class="btn btn-primary" id="register_submit_button">Sign in</button>
