@@ -54,21 +54,18 @@ def about_page(request):
     return(render(request = request, template_name = "main/about_page.html"))
 
 def lr0_parser(request):
+    lr0_form = MyGrammarInsertForm()
     if (request.method == "POST"):
         lr0_form = MyGrammarInsertForm(request.POST)
         if (lr0_form.is_valid()):
-            new_grammar = {
-                'grammar_productions': lr0_form.cleaned_data['grammar_productions'],
-                'grammar_used_parser': 'lr0',
-                'grammar_parsing_table_entries': '',
-                'grammar_user_submitter': request.user,
-                'grammar_timestamp': timezone.now()
-            }
+            lr0_form.cleaned_data['grammar_used_parser'] = 'lr0'
+            lr0_form.cleaned_data['grammar_parsing_table_entries'] = ''
+            lr0_form.cleaned_data['grammar_user_submitter'] = request.user
+            lr0_form.cleaned_data['grammar_timestamp'] = timezone.now()
+            new_grammar = lr0_form.save()
             print(new_grammar)
-            new_grammar.save()
         else:
             messages.error(request, f"Please insert a grammar")
-    lr0_form = MyGrammarInsertForm()
     return(render(request = request, template_name = "main/lr0_parser_page.html", context = {"form": lr0_form}))
 
 def lr0_grammar_parsing(request):

@@ -15,14 +15,12 @@ class MyRegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-
         fields = [
             'username',
             'email',
             'password1',
             'password2',
         ]
-
         help_texts = {
             'username': _(''),
             'email': _('Insert valid email'),
@@ -44,7 +42,7 @@ class MyRegistrationForm(UserCreationForm):
         return(user)
 
 
-class MyGrammarInsertForm(forms.Form):
+class MyGrammarInsertForm(forms.ModelForm):
     grammar_productions = forms.CharField(
         label = '',
         required = True,
@@ -60,6 +58,9 @@ class MyGrammarInsertForm(forms.Form):
 
     class Meta:
         model = Grammar
+        fields = [
+            'grammar_productions'
+        ]
 
     def clean_grammar_productions(self, *args, **kwargs): ### Checks for valid grammar input
         grammar_prods = self.cleaned_data.get('grammar_productions')
@@ -73,6 +74,17 @@ class MyGrammarInsertForm(forms.Form):
             return(grammar_prods)
         else:
             raise forms.ValidationError("You inserted a non valid grammar")
+
+    def save(self, commit = True):
+        my_grammar = super(MyGrammarInsertForm, self).save(commit = False)
+        my_grammar.grammar_productions = self.cleaned_data["grammar_productions"]
+        my_grammar.grammar_used_parser = self.cleaned_data["grammar_used_parser"]
+        my_grammar.grammar_parsing_table_entries = self.cleaned_data["grammar_parsing_table_entries"]
+        my_grammar.grammar_user_submitter = self.cleaned_data["grammar_user_submitter"]
+        my_grammar.grammar_timestamp = self.cleaned_data["grammar_timestamp"]
+        if (commit):
+            my_grammar.save()
+        return(my_grammar)
 
     # def __init__(self, user, *args, **kwargs):
     #     super(MyGrammarInsertForm, self).__init__(*args, **kwargs)
