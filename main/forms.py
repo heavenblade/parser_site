@@ -51,7 +51,7 @@ class MyGrammarInsertForm(forms.ModelForm):
                 "id": "lr0_prod_text_area",
                 "placeholder": "S->AB\nA->a\nB->#",
                 "rows": 10,
-                "cols": 20
+                "cols": 20,
             }
         )
     )
@@ -59,7 +59,7 @@ class MyGrammarInsertForm(forms.ModelForm):
     class Meta:
         model = Grammar
         fields = [
-            'grammar_productions'
+            'grammar_productions',
         ]
 
     def clean_grammar_productions(self, *args, **kwargs): ### Checks for valid grammar input
@@ -67,7 +67,7 @@ class MyGrammarInsertForm(forms.ModelForm):
         productions = grammar_prods.split('\n')
         valid_grammar = True
         for prod in productions:
-            if not (prod[0].isupper()):
+            if not (prod[0].isupper()): ### Already checked if left hand side is non-terminal
                 valid_grammar = False
                 break
         if (valid_grammar):
@@ -85,31 +85,3 @@ class MyGrammarInsertForm(forms.ModelForm):
         if (commit):
             my_grammar.save()
         return(my_grammar)
-
-    # def __init__(self, user, *args, **kwargs):
-    #     super(MyGrammarInsertForm, self).__init__(*args, **kwargs)
-    #     self.user = kwargs.pop('user', None)
-    #     self.fields['grammar'].label = ""
-    #
-    # class Meta:
-    #     model = Grammar
-    #
-    #     fields = [
-    #         'grammar_productions',
-    #     ]
-    #
-    # def save(self, commit = True):
-    #     my_grammar = super(MyGrammarInsertForm, self).save(commit = False)
-    #     my_grammar.grammar_productions = self.cleaned_data["grammar"]
-    #     my_grammar.grammar_used_parser = "lr0"
-    #     my_grammar.grammar_parsing_table_entries = "WIP"
-    #     my_grammar.grammar_user_submitter = user
-    #     if (commit):
-    #         my_grammar.save()
-    #     return(my_grammar)
-    #
-    # def clean(self):
-    #     cleaned_data = super(MyGrammarInsertForm, self).clean()
-    #     grammar = cleaned_data.get('grammar')
-    #     if not grammar:
-    #         raise forms.ValidationError('You have to insert a grammar!')
