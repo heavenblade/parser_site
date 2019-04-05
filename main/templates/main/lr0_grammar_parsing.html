@@ -1,7 +1,8 @@
-{% extends "main/lr0_parser_page.html" %}
+{% extends "main/home.html" %}
 
-{% block parsing_table %}
-    <div id="lr0_parsing_table_div">
-        Hello world!
+{% block content %}
+    <div class="container">
+        <br>
+        {{ grammar.grammar_productions }}
     </div>
 {% endblock %}

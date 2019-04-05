@@ -59,6 +59,7 @@ def about_page(request):
 
 def lr0_parser(request):
     lr0_form = MyGrammarInsertForm()
+    grammar = None
     if (request.method == "POST"):
         lr0_form = MyGrammarInsertForm(request.POST)
         if (lr0_form.is_valid()):
@@ -67,15 +68,16 @@ def lr0_parser(request):
             lr0_form.cleaned_data['grammar_user_submitter'] = request.user
             lr0_form.cleaned_data['grammar_timestamp'] = timezone.now()
             if not (Grammar.objects.filter(grammar_productions = lr0_form.cleaned_data['grammar_productions'], grammar_used_parser = 'lr0').exists()):
-                new_grammar = lr0_form.save()
+                grammar = lr0_form.save()
             else:
                 print("Grammar already exists") ### Return that grammar which is already saved in database (maybe with the same method as the check above)
         else:
             messages.error(request, f"Please insert a grammar")
-    return(render(request = request, template_name = "main/lr0_parser_page.html", context = {"form": lr0_form}))
+    return(render(request = request, template_name = "main/lr0_parser_page.html", context = {"form": lr0_form, "grammar": grammar}))
 
-def lr0_grammar_parsing(request):
-    return(render(request = request, template_name = "main/lr0_grammar_parsing.html"))
+def dyn_grammar_parsing(request, grammar_id):
+    grammar = Grammar.objects.get(id = grammar_id)
+    return(render(request = request, template_name = "main/lr0_grammar_parsing.html", context = {"grammar": grammar}))
 
 def slr0_parser(request):
     return(render(request = request, template_name = "main/slr0_parser_page.html"))
