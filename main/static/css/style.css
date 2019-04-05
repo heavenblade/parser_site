@@ -69,6 +69,12 @@ a.custom-card:hover {
     margin-bottom: 1.5rem;
 }
 
+.btn-user-page {
+    width: -webkit-fill-available;
+    height: inherit;
+    cursor: pointer;
+}
+
 /* Single elements styles */
 
 /* Homepage */
@@ -277,6 +283,30 @@ a.custom-card:hover {
 #register_submit_button {
     width: 150;
     float: right;
+}
+
+/* User page */
+#avatar_group {
+    display: inline;
+}
+
+#user_avatar {
+    height: 12rem;
+    display: inline;
+}
+
+#upload_new_avatar {
+    height: 4rem;
+    display: inline;
+    z-index: 2;
+    margin-left: -50px;
+    margin-bottom: -130px;
+    cursor: pointer;
+}
+
+#user_page_title {
+    display: inline;
+    margin-left: 4rem;
 }
 
 /* About page */

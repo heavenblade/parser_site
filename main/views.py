@@ -48,7 +48,11 @@ def login_request(request):
     return(render(request = request, template_name = "main/login.html", context = {"form": log_form}))
 
 def user_page(request):
-    return(render(request = request, template_name = "main/user_page.html"))
+    grammars_to_show = []
+    for grammar_entry in Grammar.objects.all():
+        if (grammar_entry.grammar_user_submitter == request.user):
+            grammars_to_show.append(grammar_entry)
+    return(render(request = request, template_name = "main/user_page.html", context = {"grammars": grammars_to_show}))
 
 def about_page(request):
     return(render(request = request, template_name = "main/about_page.html"))
@@ -58,7 +62,7 @@ def lr0_parser(request):
     if (request.method == "POST"):
         lr0_form = MyGrammarInsertForm(request.POST)
         if (lr0_form.is_valid()):
-            lr0_form.cleaned_data['grammar_used_parser'] = 'lr0'
+            lr0_form.cleaned_data['grammar_used_parser'] = 'LR(0)'
             lr0_form.cleaned_data['grammar_parsing_table_entries'] = ''
             lr0_form.cleaned_data['grammar_user_submitter'] = request.user
             lr0_form.cleaned_data['grammar_timestamp'] = timezone.now()

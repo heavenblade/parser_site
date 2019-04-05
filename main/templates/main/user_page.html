@@ -3,7 +3,28 @@
 {% load static %}
 
 {% block content %}
-    <h3>{{user.username}} page</h3>
+    <div id="avatar_title_div">
+        <div id="avatar_group">
+            <img src="{% static 'img/default_avatar.png' %}" id="user_avatar">
+            <img src="{% static 'img/upload_new_avatar.png' %}" id="upload_new_avatar">
+        </div>
+        <h2 id="user_page_title">{{user.username}} page</h2>
+    </div>
     <br>
     <h4>Coming soon, stay tuned!</h4>
+    <table class="table table-bordered" style="width: 80%">
+        <tr>
+            <th>Grammar productions</th>
+            <th>Parser Used</th>
+            <th>Date of submission</th>
+            <th>Link to the parsing table</th>
+        </tr>
+        {% for element in grammars %}
+            <tr>
+                <td>{{ element.grammar_productions }}</td>
+                <td style="text-align: center;">{{ element.grammar_used_parser }}</td>
+                <td>{{ element.grammar_timestamp }}</td>
+                <td><input class="btn btn-primary btn-user-page" value="Parsing table" onclick="window.location.href='/lr0-parser'"/></td>
+            </tr>
+        {% endfor %}
 {% endblock %}

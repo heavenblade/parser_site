@@ -10,7 +10,7 @@
             </li>
             {% if user.is_authenticated %}
                 <li class="nav-item" id="nav_user_button">
-                    <i class="fas fa-user" id="user_icon"></i>
+                    <i class="fas fa-user" href="/user" id="user_icon"></i>
                     <a class="nav-link" href="/user" id="user_link">{{user.username}}</a>
                 </li>
                 <li class="nav-item" id="nav_logout_button">
