@@ -63,7 +63,7 @@ def lr0_parser(request):
     if (request.method == "POST"):
         lr0_form = MyGrammarInsertForm(request.POST)
         if (lr0_form.is_valid()):
-            lr0_form.cleaned_data['grammar_used_parser'] = 'LR(0)'
+            lr0_form.cleaned_data['grammar_used_parser'] = 'lr0'
             lr0_form.cleaned_data['grammar_parsing_table_entries'] = ''
             lr0_form.cleaned_data['grammar_user_submitter'] = request.user
             lr0_form.cleaned_data['grammar_timestamp'] = timezone.now()

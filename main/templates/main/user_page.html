@@ -22,9 +22,19 @@
         {% for element in grammars %}
             <tr>
                 <td>{{ element.grammar_productions }}</td>
-                <td style="text-align: center;">{{ element.grammar_used_parser }}</td>
+                {% if element.grammar_used_parser == "lr0" %}
+                    <td style="text-align: center;">LR(0)</td>
+                {% elif element.grammar_used_parser == "slr0" %}
+                    <td style="text-align: center;">SLR(0)</td>
+                {% elif element.grammar_used_parser == "lr1" %}
+                    <td style="text-align: center;">LR(1)</td>
+                {% elif element.grammar_used_parser == "lalr1" %}
+                    <td style="text-align: center;">LALR(1)</td>
+                {% elif element.grammar_used_parser == "ll1" %}
+                    <td style="text-align: center;">LL(1)</td>
+                {% endif %}
                 <td>{{ element.grammar_timestamp }}</td>
-                <td><input class="btn btn-primary btn-user-page" value="Parsing table" onclick="window.location.href='/lr0-parser'"/></td>
+                <td><input class="btn btn-primary btn-user-page" value="Parsing table" onclick="window.location.href='/{{element.grammar_used_parser}}-parser/parsing-grammar-{{element.id}}'"/></td>
             </tr>
         {% endfor %}
 {% endblock %}
