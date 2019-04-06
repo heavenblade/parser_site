@@ -75,6 +75,14 @@ a.custom-card:hover {
     cursor: pointer;
 }
 
+.btn-parser-page {
+    width: 100px;
+    position: absolute;
+    margin-left: 30px;
+    margin-top: 100px;
+    cursor: pointer;
+}
+
 /* Single elements styles */
 
 /* Homepage */
@@ -316,16 +324,3 @@ a.custom-card:hover {
 }
 
 /* Parsers pages */
-#grammar_subtitle {
-}
-
-#lr0_grammar_input {
-}
-
-#lr0_parse_button {
-    width: 100px;
-    position: absolute;
-    margin-left: 30px;
-    margin-top: 100px;
-    cursor: pointer;
-}

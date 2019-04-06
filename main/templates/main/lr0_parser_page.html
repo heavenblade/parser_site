@@ -10,7 +10,7 @@
             <form method="POST">
                 {% csrf_token %}
                 {{ form }}
-                <button type="submit" class="btn btn-primary" onclick="window.location.href='/lr0-parser/parsing-grammar-<grammar_id>'" id="lr0_parse_button">Parse!</button>
+                <button type="submit" class="btn btn-primary btn-parser-page" id="lr0_parse_button">Parse!</button>
             </form>
         </div>
     </div>

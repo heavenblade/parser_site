@@ -11,7 +11,8 @@
         <h2 id="user_page_title">{{user.username}} page</h2>
     </div>
     <br>
-    <h4>Coming soon, stay tuned!</h4>
+    <p><h4>List of submitted grammars</h4></p>
+    <br>
     <table class="table table-bordered" style="width: 80%">
         <tr>
             <th>Grammar productions</th>
@@ -34,7 +35,7 @@
                     <td style="text-align: center;">LL(1)</td>
                 {% endif %}
                 <td>{{ element.grammar_timestamp }}</td>
-                <td><input class="btn btn-primary btn-user-page" value="Parsing table" onclick="window.location.href='/{{element.grammar_used_parser}}-parser/parsing-grammar-{{element.id}}'"/></td>
+                <td><input class="btn btn-primary btn-user-page" value="Parsing table" onclick="window.location.href='/{{element.grammar_used_parser}}-parser/parsing-grammar-{{element.id}}/'"/></td>
             </tr>
         {% endfor %}
 {% endblock %}

@@ -1,7 +1,17 @@
 {% extends "main/home.html" %}
 
 {% block content %}
-    <h4>LR(1)-parser page</h4>
+    <h3>LR(1)-parser page</h3>
     <br>
-    <h4>Coming soon, stay tuned!</h4>
+    <div id="lr1_content_container">
+        <h5 id="grammar_subtitle"><p>Insert your grammar here:</p></h5>
+        <h6><p>Note: # is treated as &epsilon;</p></h6>
+        <div>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit" class="btn btn-primary btn-parser-page" id="lr1_parse_button">Parse!</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}
