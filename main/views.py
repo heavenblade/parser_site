@@ -62,7 +62,6 @@ def about_page(request):
 def lr0_parser(request):
     lr0_form = MyGrammarInsertForm()
     grammar = None
-    terminals = None
     if (request.method == "POST"):
         lr0_form = MyGrammarInsertForm(request.POST)
         if (lr0_form.is_valid()):
@@ -71,19 +70,25 @@ def lr0_parser(request):
             lr0_form.cleaned_data['grammar_user_submitter'] = request.user
             lr0_form.cleaned_data['grammar_timestamp'] = timezone.now()
             if not (Grammar.objects.filter(grammar_productions = lr0_form.cleaned_data['grammar_productions'], grammar_used_parser = 'lr0').exists()):
-                grammar = lr0_form.save()
                 processed_grammar = []
                 for production in lr0_form.cleaned_data['grammar_productions'].split('\r\n'):
                     processed_grammar.append([production])
-                test_entries, terminals, nonTerminals, first, follow = compute_lr0_parsing(processed_grammar)
+                test_entries, terminals, nonTerminals, non_terminal_obj = compute_lr0_parsing(processed_grammar)
+                for element in non_terminals:
+                    print("First(" + element.name + "):")
+                    print(element.first_l)
                 print(terminals)
+                print(nonTerminals)
+                lr0_form.cleaned_data['grammar_terminal_symbols'] = terminals
+                lr0_form.cleaned_data['grammar_nonTerminal_symbols'] = nonTerminals
+                grammar = lr0_form.save()
             else:
                 grammar = Grammar.objects.get(grammar_productions = lr0_form.cleaned_data['grammar_productions'], grammar_used_parser = 'lr0')
                 print("Grammar already exists") ### Return that grammar which is already saved in database (maybe with the same method as the check above)
             return(redirect('/lr0-parser/parsing-grammar-' + str(grammar.id)))
         else:
             messages.error(request, f"Please insert a grammar")
-    return(render(request = request, template_name = "main/lr0_parser_page.html", context = {"form": lr0_form, "grammar": grammar, "terminals": terminals}))
+    return(render(request = request, template_name = "main/lr0_parser_page.html", context = {"form": lr0_form, "grammar": grammar}))
 
 def slr0_parser(request):
     slr0_form = MyGrammarInsertForm()

@@ -78,6 +78,8 @@ class MyGrammarInsertForm(forms.ModelForm):
     def save(self, commit = True):
         my_grammar = super(MyGrammarInsertForm, self).save(commit = False)
         my_grammar.grammar_productions = self.cleaned_data["grammar_productions"]
+        my_grammar.grammar_terminal_symbols = self.cleaned_data["grammar_terminal_symbols"]
+        my_grammar.grammar_nonTerminal_symbols = self.cleaned_data["grammar_nonTerminal_symbols"]
         my_grammar.grammar_used_parser = self.cleaned_data["grammar_used_parser"]
         my_grammar.grammar_parsing_table_entries = self.cleaned_data["grammar_parsing_table_entries"]
         my_grammar.grammar_user_submitter = self.cleaned_data["grammar_user_submitter"]
