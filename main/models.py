@@ -6,6 +6,8 @@ from django.utils import timezone
 # Create your models here.
 class Grammar(models.Model):
     grammar_productions = models.TextField()
+    grammar_terminal_symbols = models.TextField()
+    grammar_nonTerminal_symbols = models.TextField()
     grammar_used_parser = models.CharField(max_length = 20)
     grammar_parsing_table_entries = models.TextField()
     grammar_user_submitter = models.ForeignKey(User, on_delete = models.CASCADE)
