@@ -1,5 +1,5 @@
 from .classes_and_methods import nonTerminal, lr0Item
-from .ffc import collect_nonTerminal_symbols, collect_terminal_symbols, compute_first
+from .ffc import collect_nonTerminal_symbols, collect_terminal_symbols, compute_first, compute_follow
 
 
 def compute_lr0_parsing(grammar):
@@ -8,6 +8,8 @@ def compute_lr0_parsing(grammar):
     non_terminal_names = []
     non_terminals = []
     terminals = []
+    first_set = {}
+    follow_set = {}
 
     # collecting non-terminal symbols
     non_terminal_names, non_terminals = collect_nonTerminal_symbols(grammar)
@@ -21,5 +23,19 @@ def compute_lr0_parsing(grammar):
             for row in grammar:
                 compute_first(element, row, non_terminals, 3)
 
+    # follow computation
+    for i in range(0, 1):
+        for element in non_terminals:
+            for row in grammar:
+                compute_follow(element, row, non_terminals, 3)
 
-    return table_entries, terminals, non_terminal_names, non_terminals
+    for symbol in non_terminals:
+        first_set[symbol.name] = symbol.first_l
+        follow_set[symbol.name] = symbol.follow_l
+
+    print(first_set)
+    print(follow_set)
+
+
+
+    return table_entries, terminals, non_terminal_names, non_terminals, first_set, follow_set

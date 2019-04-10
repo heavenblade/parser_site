@@ -4,5 +4,8 @@
     <div class="container">
         <br>
         {{ grammar.grammar_productions }}
+        {% for element in first_set %}
+            <h6>{{ element.S }}</h6>
+        {% endfor %}
     </div>
 {% endblock %}

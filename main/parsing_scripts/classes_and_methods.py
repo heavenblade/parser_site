@@ -1,4 +1,3 @@
-from .ffc import isNonTerminal
 import numpy
 import sys
 
@@ -78,7 +77,7 @@ def check_kernel_equality(new_kernel, state_n):
 
 def apply_closure(state, my_item):
     if (my_item.isReduceItem == "Not-Reduce"):
-        if (isNonTerminal(my_item.production[my_item.dot])):
+        if (ffc.isNonTerminal(my_item.production[my_item.dot])):
             for production in grammar:
                 if (production[0][0] == my_item.production[my_item.dot]):
                     if (production[0][3] == "#"):
@@ -87,7 +86,7 @@ def apply_closure(state, my_item):
                         new_item = create_new_item(production[0], "Closure", 3, "Not-Reduce")
                     if (new_item not in state.item_l):
                         state.add_item(new_item)
-                        if (isNonTerminal(new_item.production[new_item.dot])):
+                        if (ffc.isNonTerminal(new_item.production[new_item.dot])):
                             apply_closure(state, new_item)
 #------------------------------------------------------------------------------
 class transition:

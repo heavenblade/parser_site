@@ -73,14 +73,11 @@ def lr0_parser(request):
                 processed_grammar = []
                 for production in lr0_form.cleaned_data['grammar_productions'].split('\r\n'):
                     processed_grammar.append([production])
-                test_entries, terminals, nonTerminals, non_terminal_obj = compute_lr0_parsing(processed_grammar)
-                for element in non_terminals:
-                    print("First(" + element.name + "):")
-                    print(element.first_l)
-                print(terminals)
-                print(nonTerminals)
+                test_entries, terminals, nonTerminals, non_terminals_obj, first_set, follow_set = compute_lr0_parsing(processed_grammar)
                 lr0_form.cleaned_data['grammar_terminal_symbols'] = terminals
                 lr0_form.cleaned_data['grammar_nonTerminal_symbols'] = nonTerminals
+                lr0_form.cleaned_data['grammar_first_set'] = first_set
+                lr0_form.cleaned_data['grammar_follow_set'] = follow_set
                 grammar = lr0_form.save()
             else:
                 grammar = Grammar.objects.get(grammar_productions = lr0_form.cleaned_data['grammar_productions'], grammar_used_parser = 'lr0')
