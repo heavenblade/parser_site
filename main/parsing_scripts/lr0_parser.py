@@ -29,13 +29,18 @@ def compute_lr0_parsing(grammar):
             for row in grammar:
                 compute_follow(element, row, non_terminals, 3)
 
+    # for symbol in non_terminals:
+    #     new_first_set = []
+    #     new_first_set.append(symbol.name)
+    #     new_first_set.append(symbol.first_l)
+    #     first_set.append(new_first_set)
+    #     new_follow_set = []
+    #     new_follow_set.append(symbol.name)
+    #     new_follow_set.append(symbol.follow_l)
+    #     follow_set.append(new_follow_set)
+
     for symbol in non_terminals:
         first_set[symbol.name] = symbol.first_l
         follow_set[symbol.name] = symbol.follow_l
-
-    print(first_set)
-    print(follow_set)
-
-
 
     return table_entries, terminals, non_terminal_names, non_terminals, first_set, follow_set

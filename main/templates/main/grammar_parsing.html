@@ -3,9 +3,25 @@
 {% block content %}
     <div class="container">
         <br>
-        {{ grammar.grammar_productions }}
-        {% for element in first_set %}
-            <h6>{{ element.S }}</h6>
+        <p>{{ grammar.grammar_productions }}</p>
+        <p>{{ grammar.grammar_first_set }}</p>
+        <p>{{ grammar.first_set_as_dict }}</p>
+        <br>
+        <!-- {% for first_elem in grammar.first_set_as_list %}
+            <p>{{ first_elem }}</p>
         {% endfor %}
+        <br>
+        {% for follow_elem in grammar.follow_set_as_list %}
+            <p>{{ follow_elem }}</p>
+        {% endfor %}
+        <br> -->
+        <table>
+            {% for key, value in grammar.first_set_as_dict.items %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+            {% endfor %}
+        </table>
     </div>
 {% endblock %}
