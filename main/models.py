@@ -20,12 +20,14 @@ class Grammar(models.Model):
     def __str__(self):
         return(self.grammar_productions)
 
-    def test_dict_first(self):
-        return(ast.literal_eval(self.grammar_first_set))
+    def productions_as_list(self):
+        return(self.grammar_productions.split('\r\n'))
 
     def first_set_as_dict(self):
-        print(model_to_dict(self)['grammar_first_set'])
-        return(model_to_dict(self)['grammar_first_set'])
+        return(ast.literal_eval(self.grammar_first_set))
 
     def follow_set_as_dict(self):
-        return(self.grammar_follow_set.split(','))
+        return(ast.literal_eval(self.grammar_follow_set))
+
+    def first_follow_zipped(self):
+        return(zip(ast.literal_eval(self.grammar_first_set).items(), zip(ast.literal_eval(self.grammar_follow_set).items())))

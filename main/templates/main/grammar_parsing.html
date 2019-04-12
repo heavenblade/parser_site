@@ -1,15 +1,27 @@
 {% extends "main/home.html" %}
 
+{% load ff_lists_content %}
+
 {% block content %}
     <div class="container">
         <br>
-        <p>{{ grammar.grammar_productions }}</p>
+        {% for element in grammar.productions_as_list %}
+            <p>{{ element }}</p>
+        {% endfor %}
         <br>
-        <table>
-            {% for key, value in grammar.test_dict_first.items %}
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>{{ key }}</td>
-                    <td>{{ value }}</td>
+                    <th>Non terminal</th>
+                    <th>Set of FIRST symbols</th>
+                    <th>Set of FOLLOW symbols</th>
+                </tr>
+            </thead>
+            {% for key1, value1, key2, value2 in first_follow_zipped %}
+                <tr>
+                    <td>{{ key1 }}</td>
+                    <td>{% get_joined_elements value1 %}</td>
+                    <td>{% get_joined_elements value2 %}</td>
                 </tr>
             {% endfor %}
         </table>
