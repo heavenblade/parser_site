@@ -4,19 +4,9 @@
     <div class="container">
         <br>
         <p>{{ grammar.grammar_productions }}</p>
-        <p>{{ grammar.grammar_first_set }}</p>
-        <p>{{ grammar.first_set_as_dict }}</p>
         <br>
-        <!-- {% for first_elem in grammar.first_set_as_list %}
-            <p>{{ first_elem }}</p>
-        {% endfor %}
-        <br>
-        {% for follow_elem in grammar.follow_set_as_list %}
-            <p>{{ follow_elem }}</p>
-        {% endfor %}
-        <br> -->
         <table>
-            {% for key, value in grammar.first_set_as_dict.items %}
+            {% for key, value in grammar.test_dict_first.items %}
                 <tr>
                     <td>{{ key }}</td>
                     <td>{{ value }}</td>

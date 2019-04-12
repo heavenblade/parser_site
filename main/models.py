@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.forms.models import model_to_dict
+import ast
 
 
 # Create your models here.
@@ -18,6 +19,9 @@ class Grammar(models.Model):
 
     def __str__(self):
         return(self.grammar_productions)
+
+    def test_dict_first(self):
+        return(ast.literal_eval(self.grammar_first_set))
 
     def first_set_as_dict(self):
         print(model_to_dict(self)['grammar_first_set'])
