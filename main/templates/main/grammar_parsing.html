@@ -14,7 +14,7 @@
     {% elif grammar.grammar_used_parser == "ll1" %}
         <h3 class="title-parser-page">Grammar parsing using LL(1)-parser</h3>
     {% endif %}
-    <div class="container" style="display: flex;">
+    <div class="container" id="parsing_header" style="display: flex;">
         <div id="grammar_productions_div">
             <h5>Productions:</h5>
             {% for element in grammar.productions_as_list %}
@@ -37,5 +37,8 @@
                 </tr>
             {% endfor %}
         </table>
+    </div>
+    <div id="parsing_content">
+        <h4>Parsing table</h4>
     </div>
 {% endblock %}

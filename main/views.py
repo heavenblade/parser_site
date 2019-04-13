@@ -8,6 +8,10 @@ from .forms import MyRegistrationForm, MyGrammarInsertForm
 from django.utils import timezone
 from .parsing_scripts.ffc import collect_terminal_symbols
 from .parsing_scripts.lr0_parser import compute_lr0_parsing
+from .parsing_scripts.slr0_parser import compute_slr0_parsing
+from .parsing_scripts.lr1_parser import compute_lr1_parsing
+from .parsing_scripts.lalr1_parser import compute_lalr1_parsing
+# from .parsing_scripts.ll1_parser import compute_ll1_parsing
 import ast
 
 # Views
@@ -99,6 +103,14 @@ def slr0_parser(request):
             slr0_form.cleaned_data['grammar_user_submitter'] = request.user
             slr0_form.cleaned_data['grammar_timestamp'] = timezone.now()
             if not (Grammar.objects.filter(grammar_productions = slr0_form.cleaned_data['grammar_productions'], grammar_used_parser = 'slr0').exists()):
+                processed_grammar = []
+                for production in slr0_form.cleaned_data['grammar_productions'].split('\r\n'):
+                    processed_grammar.append([production])
+                test_entries, terminals, nonTerminals, non_terminals_obj, first_set, follow_set = compute_slr0_parsing(processed_grammar)
+                slr0_form.cleaned_data['grammar_terminal_symbols'] = terminals
+                slr0_form.cleaned_data['grammar_nonTerminal_symbols'] = nonTerminals
+                slr0_form.cleaned_data['grammar_first_set'] = first_set
+                slr0_form.cleaned_data['grammar_follow_set'] = follow_set
                 grammar = slr0_form.save()
             else:
                 grammar = Grammar.objects.get(grammar_productions = slr0_form.cleaned_data['grammar_productions'], grammar_used_parser = 'slr0')
@@ -119,6 +131,14 @@ def lr1_parser(request):
             lr1_form.cleaned_data['grammar_user_submitter'] = request.user
             lr1_form.cleaned_data['grammar_timestamp'] = timezone.now()
             if not (Grammar.objects.filter(grammar_productions = lr1_form.cleaned_data['grammar_productions'], grammar_used_parser = 'lr1').exists()):
+                processed_grammar = []
+                for production in lr1_form.cleaned_data['grammar_productions'].split('\r\n'):
+                    processed_grammar.append([production])
+                test_entries, terminals, nonTerminals, non_terminals_obj, first_set, follow_set = compute_lr1_parsing(processed_grammar)
+                lr1_form.cleaned_data['grammar_terminal_symbols'] = terminals
+                lr1_form.cleaned_data['grammar_nonTerminal_symbols'] = nonTerminals
+                lr1_form.cleaned_data['grammar_first_set'] = first_set
+                lr1_form.cleaned_data['grammar_follow_set'] = follow_set
                 grammar = lr1_form.save()
             else:
                 grammar = Grammar.objects.get(grammar_productions = lr1_form.cleaned_data['grammar_productions'], grammar_used_parser = 'lr1')
@@ -139,6 +159,14 @@ def lalr1_parser(request):
             lalr1_form.cleaned_data['grammar_user_submitter'] = request.user
             lalr1_form.cleaned_data['grammar_timestamp'] = timezone.now()
             if not (Grammar.objects.filter(grammar_productions = lalr1_form.cleaned_data['grammar_productions'], grammar_used_parser = 'lalr1').exists()):
+                processed_grammar = []
+                for production in lalr1_form.cleaned_data['grammar_productions'].split('\r\n'):
+                    processed_grammar.append([production])
+                test_entries, terminals, nonTerminals, non_terminals_obj, first_set, follow_set = compute_lalr1_parsing(processed_grammar)
+                lalr1_form.cleaned_data['grammar_terminal_symbols'] = terminals
+                lalr1_form.cleaned_data['grammar_nonTerminal_symbols'] = nonTerminals
+                lalr1_form.cleaned_data['grammar_first_set'] = first_set
+                lalr1_form.cleaned_data['grammar_follow_set'] = follow_set
                 grammar = lalr1_form.save()
             else:
                 grammar = Grammar.objects.get(grammar_productions = lalr1_form.cleaned_data['grammar_productions'], grammar_used_parser = 'lalr1')
@@ -159,6 +187,14 @@ def ll1_parser(request):
             ll1_form.cleaned_data['grammar_user_submitter'] = request.user
             ll1_form.cleaned_data['grammar_timestamp'] = timezone.now()
             if not (Grammar.objects.filter(grammar_productions = ll1_form.cleaned_data['grammar_productions'], grammar_used_parser = 'll1').exists()):
+                processed_grammar = []
+                for production in ll1_form.cleaned_data['grammar_productions'].split('\r\n'):
+                    processed_grammar.append([production])
+                test_entries, terminals, nonTerminals, non_terminals_obj, first_set, follow_set = compute_ll1_parsing(processed_grammar)
+                ll1_form.cleaned_data['grammar_terminal_symbols'] = terminals
+                ll1_form.cleaned_data['grammar_nonTerminal_symbols'] = nonTerminals
+                ll1_form.cleaned_data['grammar_first_set'] = first_set
+                ll1_form.cleaned_data['grammar_follow_set'] = follow_set
                 grammar = ll1_form.save()
             else:
                 grammar = Grammar.objects.get(grammar_productions = ll1_form.cleaned_data['grammar_productions'], grammar_used_parser = 'll1')
