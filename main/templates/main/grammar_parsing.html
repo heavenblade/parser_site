@@ -3,13 +3,25 @@
 {% load ff_lists_content %}
 
 {% block content %}
-    <div class="container">
-        <br>
-        {% for element in grammar.productions_as_list %}
-            <p>{{ element }}</p>
-        {% endfor %}
-        <br>
-        <table class="table">
+    {% if grammar.grammar_used_parser == "lr0" %}
+        <h3 class="title-parser-page">Grammar parsing using LR(0)-parser</h3>
+    {% elif grammar.grammar_used_parser == "slr0" %}
+        <h3 class="title-parser-page">Grammar parsing using SLR(0)-parser</h3>
+    {% elif grammar.grammar_used_parser == "lr1" %}
+        <h3 class="title-parser-page">Grammar parsing using LR(1)-parser</h3>
+    {% elif grammar.grammar_used_parser == "lalr1" %}
+        <h3 class="title-parser-page">Grammar parsing using LALR(1)-parser</h3>
+    {% elif grammar.grammar_used_parser == "ll1" %}
+        <h3 class="title-parser-page">Grammar parsing using LL(1)-parser</h3>
+    {% endif %}
+    <div class="container" style="display: flex;">
+        <div id="grammar_productions_div">
+            <h5>Productions:</h5>
+            {% for element in grammar.productions_as_list %}
+                <p>{{ element }}</p>
+            {% endfor %}
+        </div>
+        <table class="table" id="first_and_follow_table">
             <thead>
                 <tr>
                     <th>Non terminal</th>
