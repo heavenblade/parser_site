@@ -21,7 +21,7 @@
                 <p>{{ element }}</p>
             {% endfor %}
         </div>
-        <table class="table" id="first_and_follow_table">
+        <table class="table table-bordered" id="first_and_follow_table">
             <thead>
                 <tr>
                     <th>Non terminal</th>
@@ -38,7 +38,21 @@
             {% endfor %}
         </table>
     </div>
-    <div id="parsing_content">
-        <h4>Parsing table</h4>
+    <div class="container" id="parsing_content">
+        <h5>Parsing table</h5>
+        <table class="table table-bordered" id="first_and_follow_table">
+            <thead>
+                <tr>
+                    <th style="width: 15rem;">States</th>
+                    {% for element in grammar.get_first_set_as_list %}
+                        <th style="text-align: center;">{{ element }}</th>
+                    {% endfor %}
+                    {% for element in grammar.get_follow_set_as_list %}
+                        <th style="text-align: center;">{{ element }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+
+        </table>
     </div>
 {% endblock %}

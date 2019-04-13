@@ -23,8 +23,8 @@ class Grammar(models.Model):
     def productions_as_list(self):
         return(self.grammar_productions.split('\r\n'))
 
-    def first_set_as_dict(self):
-        return(ast.literal_eval(self.grammar_first_set))
+    def get_first_set_as_list(self):
+        return(ast.literal_eval(self.grammar_terminal_symbols))
 
-    def follow_set_as_dict(self):
-        return(ast.literal_eval(self.grammar_follow_set))
+    def get_follow_set_as_list(self):
+        return(ast.literal_eval(self.grammar_nonTerminal_symbols))
