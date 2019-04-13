@@ -17,11 +17,11 @@
                     <th>Set of FOLLOW symbols</th>
                 </tr>
             </thead>
-            {% for key1, value1, key2, value2 in first_follow_zipped %}
+            {% for first, follow in zip_obj %}
                 <tr>
-                    <td>{{ key1 }}</td>
-                    <td>{% get_joined_elements value1 %}</td>
-                    <td>{% get_joined_elements value2 %}</td>
+                    <td>{{ first.0 }}</td>
+                    <td>{% get_joined_elements first.1 %}</td>
+                    <td>{% get_joined_elements follow.1 %}</td>
                 </tr>
             {% endfor %}
         </table>

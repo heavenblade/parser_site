@@ -28,6 +28,3 @@ class Grammar(models.Model):
 
     def follow_set_as_dict(self):
         return(ast.literal_eval(self.grammar_follow_set))
-
-    def first_follow_zipped(self):
-        return(zip(ast.literal_eval(self.grammar_first_set).items(), zip(ast.literal_eval(self.grammar_follow_set).items())))

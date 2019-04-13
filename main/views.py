@@ -8,6 +8,7 @@ from .forms import MyRegistrationForm, MyGrammarInsertForm
 from django.utils import timezone
 from .parsing_scripts.ffc import collect_terminal_symbols
 from .parsing_scripts.lr0_parser import compute_lr0_parsing
+import ast
 
 # Views
 def homepage(request):
@@ -169,4 +170,5 @@ def ll1_parser(request):
 
 def dyn_grammar_parsing(request, grammar_id):
     grammar = Grammar.objects.get(id = grammar_id)
-    return(render(request = request, template_name = "main/grammar_parsing.html", context = {"grammar": grammar}))
+    zipped_object = zip(ast.literal_eval(grammar.grammar_first_set).items(), ast.literal_eval(grammar.grammar_follow_set).items())
+    return(render(request = request, template_name = "main/grammar_parsing.html", context = {"grammar": grammar, "zip_obj": zipped_object}))
