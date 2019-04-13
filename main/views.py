@@ -11,7 +11,7 @@ from .parsing_scripts.lr0_parser import compute_lr0_parsing
 from .parsing_scripts.slr0_parser import compute_slr0_parsing
 from .parsing_scripts.lr1_parser import compute_lr1_parsing
 from .parsing_scripts.lalr1_parser import compute_lalr1_parsing
-# from .parsing_scripts.ll1_parser import compute_ll1_parsing
+from .parsing_scripts.ll1_parser import compute_ll1_parsing
 import ast
 
 # Views
