@@ -24,7 +24,13 @@ class Grammar(models.Model):
         return(self.grammar_productions.split('\r\n'))
 
     def get_first_set_as_list(self):
-        return(ast.literal_eval(self.grammar_terminal_symbols))
+        return(ast.literal_eval(self.grammar_first_set))
 
     def get_follow_set_as_list(self):
+        return(ast.literal_eval(self.grammar_follow_set))
+
+    def get_terminals_as_list(self):
+        return(ast.literal_eval(self.grammar_terminal_symbols))
+
+    def get_nonTerminals_as_list(self):
         return(ast.literal_eval(self.grammar_nonTerminal_symbols))

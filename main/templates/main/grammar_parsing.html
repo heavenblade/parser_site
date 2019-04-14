@@ -44,10 +44,10 @@
             <thead>
                 <tr>
                     <th style="width: 15rem;">States</th>
-                    {% for element in grammar.get_first_set_as_list %}
+                    {% for element in grammar.get_terminals_as_list %}
                         <th style="text-align: center;">{{ element }}</th>
                     {% endfor %}
-                    {% for element in grammar.get_follow_set_as_list %}
+                    {% for element in grammar.get_nonTerminals_as_list %}
                         <th style="text-align: center;">{{ element }}</th>
                     {% endfor %}
                 </tr>
