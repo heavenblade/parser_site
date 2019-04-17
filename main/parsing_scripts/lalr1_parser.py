@@ -1,6 +1,4 @@
-from .classes_and_methods import nonTerminal, lr0Item, lr1Item
-from .ffc import collect_nonTerminal_symbols, collect_terminal_symbols, compute_first, compute_follow
-
+from .classes_and_methods import nonTerminal, lr0Item, lr1Item, collect_nonTerminal_symbols, collect_terminal_symbols, compute_first, compute_follow
 
 def compute_lalr1_parsing(grammar):
     # return declaration

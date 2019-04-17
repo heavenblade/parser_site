@@ -1,5 +1,4 @@
-from .classes_and_methods import nonTerminal
-from .ffc import collect_nonTerminal_symbols, collect_terminal_symbols, compute_first, compute_follow
+from .classes_and_methods import nonTerminal, collect_nonTerminal_symbols, collect_terminal_symbols, compute_first, compute_follow
 
 
 def compute_ll1_parsing(grammar):

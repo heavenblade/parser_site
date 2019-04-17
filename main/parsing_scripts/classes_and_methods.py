@@ -1,7 +1,153 @@
 import numpy
 import sys
-# from .ffc import isTerminal, isNonTerminal
 
+# function that returns True if a symbol is terminal and False otherwise
+def isTerminal(element):
+    isSymbol = False
+    if element == "(" or element == ")" or element == "*" or element == "+" or element == "." or element == "-" or element == "[" or element == "]" or element == "<" or element == ">" or element == "=" or element == "^" or element == "{" or element == "}" or element == "|":
+        isSymbol = True
+    if element == element.upper() and not isSymbol:
+        return False
+    elif element == element.lower() or isSymbol:
+        return True
+
+# function that returns True if a symbol is non-terminal and False otherwise
+def isNonTerminal(element):
+    isSymbol = False
+    if element == "(" or element == ")" or element == "*" or element == "+" or element == "." or element == "-" or element == "[" or element == "]" or element == "<" or element == ">" or element == "=" or element == "^" or element == "{" or element == "}" or element == "|":
+        isSymbol = True
+    if element == element.upper() and not isSymbol:
+        return True
+    elif element == element.lower() or isSymbol:
+        return False
+
+# function that returns the set of terminal symbols in a given grammar
+def collect_terminal_symbols(grammar):
+    terminal_names = []
+    for production in grammar:
+        for index in range(len(production[0])):
+            if production[0][index] != '#' and index >= 3:
+                if isTerminal(production[0][index]):
+                    if production[0][index] not in terminal_names:
+                        terminal_names.append(production[0][index])
+    terminal_names.append("$")
+    return terminal_names
+
+# function that returns the set of non-terminal symbols in a given grammars
+def collect_nonTerminal_symbols(grammar):
+    non_terminal_names = []
+    non_terminals = []
+    for index in range(len(grammar)):
+        driver = grammar[index][0][0]
+        print(grammar[index])
+        print(driver)
+        if driver not in non_terminal_names:
+            non_terminal_names.append(driver)
+            non_terminals.append(nonTerminal(driver))
+    return non_terminal_names, non_terminals
+
+# function that return the set of first symbols (+ epsilon) of a given non-terminal symbol
+def compute_first(driver, production, my_non_terminals, p_prog):
+    if driver.name == production[0][0]:
+        #print("Analyzing '" + production[0] + "' in the computation of first(" + driver.name + ").")
+        if isTerminal(production[0][p_prog]):
+            if production[0][p_prog] not in driver.first_l:
+                driver.add_first(production[0][p_prog])
+                #print("Adding '" + production[0][p_prog] + "' to first(" + driver.name + ").")
+            #else:
+                #print("'" + production[0][p_prog] + "' already in first(" + driver.name + ").")
+        elif production[0][p_prog] == '#' and p_prog == len(production[0])-1:
+            if '#' not in driver.first_l:
+                driver.add_first('#')
+                #print("Adding epsilon to first(" + driver.name + ").")
+        elif isNonTerminal(production[0][p_prog]):
+            for element in my_non_terminals:
+                if element.name == production[0][p_prog]:
+                    nT = element
+                    for first_nT in nT.first_l:
+                        if first_nT != '#':
+                            if first_nT not in driver.first_l:
+                                driver.add_first(first_nT)
+                                #print("Adding '" + first_nT + "' to first(" + driver.name + ").")
+                            #else:
+                                #print("'" + first_nT + "' already in first(" + driver.name + ").")
+                        else:
+                            if p_prog == len(production[0])-1:
+                                if "#" not in driver.first_l:
+                                    driver.add_first("#")
+                                    #print("Adding epsilon to first(" + driver.name + ").")
+                            else:
+                                if p_prog < len(production[0])-1:
+                                    #print("Calling again")
+                                    compute_first(driver, production, my_non_terminals, p_prog+1)
+
+# function that returns the set of follow symbols (+ $) of a given non-terminal symbol
+def compute_follow(nT, production, my_non_terminals, p_prog):
+    if nT.isStartSymbol:
+        if '$' not in nT.follow_l:
+            nT.add_follow('$')
+    #print("Analyzing the production '" + production[0] + "' in the computation of follow(" + nT.name + ")..")
+    if production[0][-1] == nT.name:
+        for non_T in my_non_terminals:
+            if production[0][0] == non_T.name:
+                for follow_d in non_T.follow_l:
+                    if follow_d not in nT.follow_l:
+                        nT.follow_l.append(follow_d)
+                        #print("Adding '" + follow_d + "' to follow(" + production[0][-1] + ") due to rule 1.")
+    if nT.name == production[0][p_prog]:
+        stopped = False
+        if len(production[0]) > 4 and p_prog < len(production[0])-1:
+            if isNonTerminal(production[0][p_prog]):
+                if isTerminal(production[0][p_prog+1]):
+                    if production[0][p_prog+1] not in nT.follow_l:
+                        nT.add_follow(production[0][p_prog+1])
+                        #print("Adding '" + production[0][p_prog+1] + "' to follow(" + nT.name + ") due to rule 2.")
+                        compute_follow(nT, production, my_non_terminals, p_prog+1)
+                else:
+                    while (p_prog < len(production[0])-1 and not stopped):
+                        if isTerminal(production[0][p_prog+1]):
+                            if production[0][p_prog+1] not in nT.follow_l:
+                                nT.add_follow(production[0][p_prog+1])
+                            stopped = True
+                        else:
+                            for non_T_ahead in my_non_terminals:
+                                if non_T_ahead.name == production[0][p_prog+1]:
+                                    if "#" in non_T_ahead.first_l:
+                                        for first_to_add in non_T_ahead.first_l:
+                                            if first_to_add != "#":
+                                                if first_to_add not in nT.follow_l:
+                                                    nT.add_follow(first_to_add)
+                                                    #print("Adding '" + first_to_add + "' to follow(" + nT.name + ") due to rule 3.1")
+                                        if p_prog+1 == len(production[0])-1:
+                                            for driver_non_T in my_non_terminals:
+                                                if driver_non_T.name == production[0][0]:
+                                                    for follow_driver in driver_non_T.follow_l:
+                                                        if follow_driver not in nT.follow_l:
+                                                            nT.add_follow(follow_driver)
+                                                            #print("Adding '" + follow_driver + "' to follow(" + nT.name + ") due to rule 4")
+                                            stopped = True
+                                        if p_prog+2 <= len(production[0])-1:
+                                            p_prog += 1
+                                    else:
+                                        for first_to_add in non_T_ahead.first_l:
+                                            if first_to_add not in nT.follow_l:
+                                                nT.add_follow(first_to_add)
+                                                #print("Adding '" + first_to_add + "' to follow(" + nT.name + ") due to rule 3.2")
+                                        stopped = True
+                                        break
+        else:
+            if isNonTerminal(production[0][p_prog]):
+                for element in my_non_terminals:
+                    if element.name == production[0][-1]:
+                        for driver in my_non_terminals:
+                            if driver.name == production[0][0]:
+                                for follow_d in driver.follow_l:
+                                    if follow_d not in element.follow_l:
+                                        element.add_follow(follow_d)
+                                        #print("Adding '" + follow_d + "' to follow(" + production[0][-1] + ") due to rule 1.")
+    else:
+        if p_prog < len(production[0])-1:
+            compute_follow(nT, production, my_non_terminals, p_prog+1)
 #------------------------------------------------------------------------------
 class nonTerminal:
     name = ''
@@ -33,6 +179,9 @@ class lr0Item:
         self.dot = dot
         self.isReduceItem = reduct
 
+    def __str__(self):
+        return(self.production, self.type, self.dot, self.isReduceItem)
+
     def __eq__(self, other):
         if (self.production == other.production and self.type == other.type and self.dot == other.dot and self.isReduceItem == other.isReduceItem):
             return True
@@ -41,9 +190,6 @@ class lr0Item:
 
     def __hash__(self):
         return hash((self.production, self.type, self.dot, self.isReduceItem))
-
-    def print_item(self):
-        print(self.production, self.type, self.dot, self.isReduceItem)
 
     def create_new_item(production, type, dot, reduct):
         new_item = lr0Item(production, type, dot, reduct)
@@ -62,6 +208,9 @@ class lr0State:
     def add_item(self, item):
         self.item_l.append(item)
 
+    def print_state(self):
+        print(item_l)
+
     def create_new_state(name):
         new_state = lr0State(name)
         return new_state
@@ -76,23 +225,19 @@ class lr0State:
         else:
             return False
 
-    def apply_closure(state, my_item):
-        if (my_item.isReduceItem == "Not-Reduce"):
-            if (isNonTerminal(my_item.production[my_item.dot])):
+    def apply_closure(state, my_item, grammar):
+        if my_item.isReduceItem == "Not-Reduce":
+            if isNonTerminal(my_item.production[my_item.dot]):
                 for production in grammar:
-                    if (production[0][0] == my_item.production[my_item.dot]):
-                        if (production[0][3] == "#"):
-                            new_item = create_new_item(production[0], "Closure", 3, "Reduce")
+                    if production[0][0] == my_item.production[my_item.dot]:
+                        if production[0][3] == "#":
+                            new_item = lr0Item.create_new_item(production[0], "Closure", 3, "Reduce")
                         else:
-                            new_item = create_new_item(production[0], "Closure", 3, "Not-Reduce")
-                        if (new_item not in state.item_l):
+                            new_item = lr0Item.create_new_item(production[0], "Closure", 3, "Not-Reduce")
+                        if new_item not in state.item_l:
                             state.add_item(new_item)
-                            if (isNonTerminal(new_item.production[new_item.dot])):
-                                apply_closure(state, new_item)
-
-    def print_state(self):
-        for item in self.item_l:
-            item.print_item()
+                            if isNonTerminal(new_item.production[new_item.dot]):
+                                lr0State.apply_closure(state, new_item, grammar)
 #------------------------------------------------------------------------------
 class lr1Item:
     production = []
@@ -111,16 +256,16 @@ class lr1Item:
     def __eq__ (self, other):
         equal = False
         lookaheads = []
-        if (self.production == other.production and self.dot == other.dot and self.type == other.type and self.isReduceItem == other.isReduceItem):
+        if self.production == other.production and self.dot == other.dot and self.type == other.type and self.isReduceItem == other.isReduceItem:
             for element in self.lookAhead:
-                if (element not in lookaheads):
+                if element not in lookaheads:
                     lookaheads.append(element)
             for element in other.lookAhead:
-                if (element not in lookaheads):
+                if element not in lookaheads:
                     lookaheads.append(element)
             for LA in lookaheads:
-                if (LA in self.lookAhead):
-                    if (LA in other.lookAhead):
+                if LA in self.lookAhead:
+                    if LA in other.lookAhead:
                         equal = True
                     else:
                         equal = False
@@ -130,7 +275,7 @@ class lr1Item:
                     break
         else:
             equal = False
-        if (equal):
+        if equal:
             return True
         else:
             return False
@@ -138,7 +283,7 @@ class lr1Item:
     def __hash__(self):
         return hash((self.production, self.dot, self.type, self.isReduceItem))
 
-    def create_new_lr1_item (production, LA, dot, type, reduct):
+    def create_new_item (production, LA, dot, type, reduct):
         new_item = lr1Item(production, LA, dot, type, reduct)
         return new_item
 
@@ -165,45 +310,45 @@ class lr1State:
     def check_kernel_equality(new_kernel, state_n):
         state_n_ker = []
         for item in state_n.item_l:
-            if (item.type == "Kernel"):
+            if item.type == "Kernel":
                 state_n_ker.append(item)
-        if (set(new_kernel) == set(state_n_ker)):
+        if set(new_kernel) == set(state_n_ker):
             return True
         else:
             return False
 
     def apply_closure(state, my_item, recursion):
-        if (my_item.isReduceItem == "Not-Reduce"):
-            if (ffc.isNonTerminal(my_item.production[my_item.dot])):
+        if my_item.isReduceItem == "Not-Reduce":
+            if isNonTerminal(my_item.production[my_item.dot]):
                 for production in grammar:
-                    if (production[0][0] == my_item.production[my_item.dot]):
+                    if production[0][0] == my_item.production[my_item.dot]:
                         temp_lookAhead_l = []
-                        if (my_item.dot == len(my_item.production)-1):
+                        if my_item.dot == len(my_item.production)-1:
                             for element in my_item.lookAhead:
                                 temp_lookAhead_l.append(element)
                         else:
                             p_prog = my_item.dot
                             stopped = False
                             while (p_prog+1 <= len(my_item.production)-1 and not stopped):
-                                if (ffc.isTerminal(my_item.production[p_prog+1])):
-                                    if (my_item.production[p_prog+1] not in temp_lookAhead_l):
+                                if isTerminal(my_item.production[p_prog+1]):
+                                    if my_item.production[p_prog+1] not in temp_lookAhead_l:
                                         temp_lookAhead_l.append(my_item.production[p_prog+1])
                                         stopped = True
                                 else:
                                     for nT in non_terminals:
-                                        if (nT.name == my_item.production[p_prog+1]):
+                                        if nT.name == my_item.production[p_prog+1]:
                                             for first_nT in nT.first_l:
-                                                if (first_nT != "#"):
-                                                    if (first_nT not in temp_lookAhead_l):
+                                                if first_nT != "#":
+                                                    if first_nT not in temp_lookAhead_l:
                                                         temp_lookAhead_l.append(first_nT)
                                                 else:
-                                                    if (p_prog+1 == len(my_item.production)-1):
+                                                    if p_prog+1 == len(my_item.production)-1:
                                                         for item_clos_LA in my_item.lookAhead:
-                                                            if (item_clos_LA not in temp_lookAhead_l):
+                                                            if item_clos_LA not in temp_lookAhead_l:
                                                                 temp_lookAhead_l.append(item_clos_LA)
                                 p_prog += 1
                         temp_type = ""
-                        if (production[0][3] == "#"):
+                        if production[0][3] == "#":
                             new_temp_item = create_new_lr0_item(production[0], 3, "Closure", "Reduce")
                             temp_type = "Reduce"
                         else:
@@ -212,18 +357,18 @@ class lr1State:
                         found = False
                         for item_for_la_merge in state.item_l:
                             temp_item = create_new_lr0_item(item_for_la_merge.production, item_for_la_merge.dot, item_for_la_merge.type, item_for_la_merge.isReduceItem)
-                            if (temp_item == new_temp_item):
+                            if temp_item == new_temp_item:
                                 for la_to_merge in temp_lookAhead_l:
-                                    if (la_to_merge not in item_for_la_merge.lookAhead):
+                                    if la_to_merge not in item_for_la_merge.lookAhead:
                                         item_for_la_merge.lookAhead.append(la_to_merge)
                                 found = True
-                        if (not found):
+                        if not found:
                             new_item = create_new_lr1_item(production[0], temp_lookAhead_l, 3, "Closure", temp_type)
-                            if (new_item not in state.item_l):
+                            if new_item not in state.item_l:
                                 state.item_l.append(new_item)
                                 #print("Adding " + new_item.production + " to state " + str(state.name))
-                                if (recursion < 2):
-                                    if (ffc.isNonTerminal(new_item.production[new_item.dot])):
+                                if recursion < 2:
+                                    if isNonTerminal(new_item.production[new_item.dot]):
                                         #print("recurring for " + new_item.production, recursion)
                                         apply_closure(state, new_item, recursion+1)
 #------------------------------------------------------------------------------

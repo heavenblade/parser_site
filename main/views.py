@@ -6,7 +6,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from .forms import MyRegistrationForm, MyGrammarInsertForm
 from django.utils import timezone
-from .parsing_scripts.ffc import collect_terminal_symbols
+from .parsing_scripts.classes_and_methods import collect_terminal_symbols
 from .parsing_scripts.lr0_parser import compute_lr0_parsing
 from .parsing_scripts.slr0_parser import compute_slr0_parsing
 from .parsing_scripts.lr1_parser import compute_lr1_parsing

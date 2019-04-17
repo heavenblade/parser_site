@@ -1,5 +1,4 @@
-from .classes_and_methods import nonTerminal, lr0Item, lr0State
-from .ffc import collect_nonTerminal_symbols, collect_terminal_symbols, compute_first, compute_follow
+from .classes_and_methods import collect_nonTerminal_symbols, collect_terminal_symbols, compute_first, compute_follow, lr0State, lr0Item
 
 
 def compute_lr0_parsing(grammar):
@@ -50,16 +49,15 @@ def compute_lr0_parsing(grammar):
         a_grammar.append(prod[0])
 
     # starting state
-    '''
     initial_state = lr0State.create_new_state(state_counter)
     state_counter += 1
     initial_state.isInitialState = True
     s_item = lr0Item.create_new_item(a_grammar[0], "Kernel", 3, "Not-Reduce")
     initial_state.add_item(s_item)
-    lr0State.apply_closure(initial_state, s_item)
+    lr0State.apply_closure(initial_state, s_item, grammar)
     lr0_states.append(initial_state)
     initial_state.print_state()
-    '''
+
     # rest of automaton computation
     '''
     for state in lr0_states:
@@ -68,8 +66,8 @@ def compute_lr0_parsing(grammar):
                 apply_closure(state, clos_item)
         new_symb_transitions = []
         for item in state.item_l:
-            if (item.isReduceItem == "Not-Reduce"):
-                if (item.production[item.dot] not in new_symb_transitions):
+            if item.isReduceItem == "Not-Reduce":
+                if item.production[item.dot] not in new_symb_transitions:
                     new_symb_transitions.append(item.production[item.dot])
 
         for element in new_symb_transitions:
@@ -77,12 +75,12 @@ def compute_lr0_parsing(grammar):
             destination_state = 0
             new_state_items = []
             for item in state.item_l:
-                if (item.isReduceItem != "Reduce"):
-                    if (item.production[item.dot] == element):
+                if item.isReduceItem != "Reduce":
+                    if item.production[item.dot] == element:
                         new_item = create_new_item(item.production, "Kernel", item.dot+1, "Reduce" if (item.dot+1 == len(item.production)) else "Not-Reduce")
                         new_state_items.append(new_item)
             for state_n in lr0_states:
-                    if (check_kernel_equality(new_state_items, state_n)):
+                    if check_kernel_equality(new_state_items, state_n):
                         require_new_state = False
                         destination_state = state_n.name
                         break
@@ -108,7 +106,7 @@ def compute_lr0_parsing(grammar):
 
     print("LR(0)-states:")
     for state in lr0_states:
-        print("\nState " + str(state.name) + ":")
+        print("State " + str(state.name) + ":")
         for element in state.item_l:
             prod_to_print = ""
             prod_to_print += element.production[:3]
@@ -132,7 +130,7 @@ def compute_lr0_parsing(grammar):
                     else:
                         idx += 1
             print(prod_to_print + ",", element.type + ", " + element.isReduceItem)
-    print("\nLR(0)-transitions:")
+    print("LR(0)-transitions:")
     for transition in transitions:
         print(transition.name, transition.element, transition.starting_state, transition.ending_state)
 
@@ -188,13 +186,13 @@ def compute_lr0_parsing(grammar):
     for i in range(state_counter):
         lr0_table.add_row(table[i])
 
-    print("\nLR(0) parsing table of the grammar G:")
+    print("LR(0) parsing table of the grammar G:")
     print(lr0_table)
 
     if (ffc.verify_grammar(table, state_counter, total_lenght)):
-        print("\nThe grammar G is not LR(0).")
+        print("The grammar G is not LR(0).")
     else:
-        print("\nThe grammar G is LR(0).")
+        print("The grammar G is LR(0).")
     '''
 
     return table_entries, terminals, non_terminal_names, non_terminals, first_set, follow_set
