@@ -1,4 +1,4 @@
-from .classes_and_methods import collect_nonTerminal_symbols, collect_terminal_symbols, compute_first, compute_follow, lr0State, lr0Item
+from .classes_and_methods import collect_nonTerminal_symbols, collect_terminal_symbols, compute_first, compute_follow, lr0State, lr0Item, lr0Transition
 
 
 def compute_lr0_parsing(grammar):
@@ -56,20 +56,17 @@ def compute_lr0_parsing(grammar):
     initial_state.add_item(s_item)
     lr0State.apply_closure(initial_state, s_item, grammar)
     lr0_states.append(initial_state)
-    initial_state.print_state()
 
     # rest of automaton computation
-    '''
     for state in lr0_states:
         for i in range(3): # temporary solution to recursive closure applications
             for clos_item in state.item_l:
-                apply_closure(state, clos_item)
+                lr0State.apply_closure(state, clos_item, grammar)
         new_symb_transitions = []
         for item in state.item_l:
             if item.isReduceItem == "Not-Reduce":
                 if item.production[item.dot] not in new_symb_transitions:
                     new_symb_transitions.append(item.production[item.dot])
-
         for element in new_symb_transitions:
             require_new_state = False
             destination_state = 0
@@ -77,29 +74,29 @@ def compute_lr0_parsing(grammar):
             for item in state.item_l:
                 if item.isReduceItem != "Reduce":
                     if item.production[item.dot] == element:
-                        new_item = create_new_item(item.production, "Kernel", item.dot+1, "Reduce" if (item.dot+1 == len(item.production)) else "Not-Reduce")
+                        new_item = lr0Item.create_new_item(item.production, "Kernel", item.dot+1, "Reduce" if (item.dot+1 == len(item.production)) else "Not-Reduce")
                         new_state_items.append(new_item)
             for state_n in lr0_states:
-                    if check_kernel_equality(new_state_items, state_n):
-                        require_new_state = False
-                        destination_state = state_n.name
-                        break
-                    else:
-                        require_new_state = True
+                if lr0State.check_kernel_equality(new_state_items, state_n):
+                    require_new_state = False
+                    destination_state = state_n.name
+                    break
+                else:
+                    require_new_state = True
             if (require_new_state):
-                new_state = create_new_state(state_counter)
+                new_state = lr0State.create_new_state(state_counter)
                 state_counter += 1
                 lr0_states.append(new_state)
                 for new_state_item in new_state_items:
                     if (new_state_item not in new_state.item_l):
                         new_state.add_item(new_state_item)
-                    apply_closure(new_state, new_state_item)
-                new_transition = create_new_transition(transition_counter, element, state.name, new_state.name)
+                    lr0State.apply_closure(new_state, new_state_item, grammar)
+                new_transition = lr0Transition.create_new_transition(transition_counter, element, state.name, new_state.name)
                 transition_counter += 1
                 if (new_transition not in transitions):
                     transitions.append(new_transition)
             else:
-                new_transition = create_new_transition(transition_counter, element, state.name, destination_state)
+                new_transition = lr0Transition.create_new_transition(transition_counter, element, state.name, destination_state)
                 transition_counter += 1
                 if (new_transition not in transitions):
                     transitions.append(new_transition)
@@ -133,7 +130,7 @@ def compute_lr0_parsing(grammar):
     print("LR(0)-transitions:")
     for transition in transitions:
         print(transition.name, transition.element, transition.starting_state, transition.ending_state)
-
+    '''
     # table creation
     header = []
     for element in terminals:
@@ -194,5 +191,4 @@ def compute_lr0_parsing(grammar):
     else:
         print("The grammar G is LR(0).")
     '''
-
     return table_entries, terminals, non_terminal_names, non_terminals, first_set, follow_set

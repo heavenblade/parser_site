@@ -37,10 +37,8 @@ def collect_terminal_symbols(grammar):
 def collect_nonTerminal_symbols(grammar):
     non_terminal_names = []
     non_terminals = []
-    for index in range(len(grammar)):
-        driver = grammar[index][0][0]
-        print(grammar[index])
-        print(driver)
+    for production in grammar:
+        driver = production[0][0]
         if driver not in non_terminal_names:
             non_terminal_names.append(driver)
             non_terminals.append(nonTerminal(driver))
@@ -209,7 +207,7 @@ class lr0State:
         self.item_l.append(item)
 
     def print_state(self):
-        print(item_l)
+        print(self.item_l)
 
     def create_new_state(name):
         new_state = lr0State(name)
