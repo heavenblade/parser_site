@@ -43,7 +43,7 @@
         <table class="table table-bordered" id="first_and_follow_table">
             <thead>
                 <tr>
-                    <th style="width: 15rem;">States</th>
+                    <th style="width: 13rem;">States</th>
                     {% for terminal in grammar.get_terminals_as_list %}
                         <th style="text-align: center;">{{ terminal }}</th>
                     {% endfor %}
@@ -52,7 +52,13 @@
                     {% endfor %}
                 </tr>
             </thead>
-
+                {% for row in grammar.get_grammar_productions_as_list %}
+                    <tr>
+                        {% for entry in row %}
+                            <td>{{ entry }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
         </table>
     </div>
 {% endblock %}

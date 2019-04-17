@@ -34,3 +34,12 @@ class Grammar(models.Model):
 
     def get_nonTerminals_as_list(self):
         return(ast.literal_eval(self.grammar_nonTerminal_symbols))
+
+    def get_grammar_productions_as_list(self):
+        return(ast.literal_eval(self.grammar_parsing_table_entries))
+
+    def get_joined_table_entries(self):
+        if len(self) > 1:
+            return(" / ".join(self))
+        else:
+            return(self)

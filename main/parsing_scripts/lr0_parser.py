@@ -1,9 +1,8 @@
-from .classes_and_methods import collect_nonTerminal_symbols, collect_terminal_symbols, compute_first, compute_follow, lr0State, lr0Item, lr0Transition
+from .classes_and_methods import isNonTerminal, isTerminal, collect_nonTerminal_symbols, collect_terminal_symbols, compute_first, compute_follow, lr0State, lr0Item, lr0Transition
 
 
 def compute_lr0_parsing(grammar):
     # variabls and return declaration
-    table_entries = []
     non_terminal_names = []
     non_terminals = []
     terminals = []
@@ -83,22 +82,22 @@ def compute_lr0_parsing(grammar):
                     break
                 else:
                     require_new_state = True
-            if (require_new_state):
+            if require_new_state:
                 new_state = lr0State.create_new_state(state_counter)
                 state_counter += 1
                 lr0_states.append(new_state)
                 for new_state_item in new_state_items:
-                    if (new_state_item not in new_state.item_l):
+                    if new_state_item not in new_state.item_l:
                         new_state.add_item(new_state_item)
                     lr0State.apply_closure(new_state, new_state_item, grammar)
                 new_transition = lr0Transition.create_new_transition(transition_counter, element, state.name, new_state.name)
                 transition_counter += 1
-                if (new_transition not in transitions):
+                if new_transition not in transitions:
                     transitions.append(new_transition)
             else:
                 new_transition = lr0Transition.create_new_transition(transition_counter, element, state.name, destination_state)
                 transition_counter += 1
-                if (new_transition not in transitions):
+                if new_transition not in transitions:
                     transitions.append(new_transition)
 
     print("LR(0)-states:")
@@ -130,9 +129,10 @@ def compute_lr0_parsing(grammar):
     print("LR(0)-transitions:")
     for transition in transitions:
         print(transition.name, transition.element, transition.starting_state, transition.ending_state)
-    '''
+
     # table creation
     header = []
+    header.append('States')
     for element in terminals:
         if element not in header:
             header.append(element)
@@ -140,46 +140,44 @@ def compute_lr0_parsing(grammar):
         if element not in header:
             header.append(element)
 
-    lr0_table = PrettyTable(header)
-    total_lenght = len(non_terminal_names) + len(terminals)
-    table = [["" for x in range(total_lenght)] for y in range(state_counter)]
+    table = [["" for x in range(len(header))] for y in range(state_counter)]
 
-    # LR(0)-parsing table computation
     for idx_row in range(state_counter):
-        for idx_col in range(total_lenght):
-            if (idx_col == 0):
+        for idx_col in range(len(header)):
+            if idx_col == 0:
                 table[idx_row][idx_col] = idx_row
             else:
                 table[idx_row][idx_col] = []
 
     for idx, element in enumerate(header):
-        if (element == "$"):
+        if element == "$":
             table[1][idx].append("Accept")
     for transition in transitions:
         new_entry = ""
-        if (ffc.isNonTerminal(transition.element)):
+        if isNonTerminal(transition.element):
             new_entry = "Goto " + str(transition.ending_state)
             for idx, element in enumerate(header):
-                if (element == transition.element):
+                if element == transition.element:
                     table[transition.starting_state][idx].append(new_entry)
-        elif (ffc.isTerminal(transition.element)):
+        elif isTerminal(transition.element):
             new_entry = "S" + str(transition.ending_state)
             for idx, element in enumerate(header):
-                if (element == transition.element):
+                if element == transition.element:
                     table[transition.starting_state][idx].append(new_entry)
     for state in lr0_states:
         for item in state.item_l:
-            if ("Q->" not in item.production):
+            if "Q->" not in item.production:
                 new_entry = ""
-                if (item.isReduceItem == "Reduce"):
+                if item.isReduceItem == "Reduce":
                     for idx1, production in enumerate(grammar):
-                        if (item.production == production[0]):
+                        if item.production == production[0]:
                             new_entry = "R" + str(idx1+1)
                     for idx2, element in enumerate(header):
-                        if (ffc.isTerminal(element) or element == "$"):
-                            if (len(new_entry) > 0):
+                        if isTerminal(element) or element == "$":
+                            if len(new_entry) > 0:
                                 table[state.name][idx2].append(new_entry)
-
+    print(table)
+    '''
     for i in range(state_counter):
         lr0_table.add_row(table[i])
 
@@ -191,4 +189,4 @@ def compute_lr0_parsing(grammar):
     else:
         print("The grammar G is LR(0).")
     '''
-    return table_entries, terminals, non_terminal_names, non_terminals, first_set, follow_set
+    return table, terminals, non_terminal_names, non_terminals, first_set, follow_set
