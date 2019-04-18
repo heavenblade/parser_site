@@ -99,7 +99,7 @@ def compute_lr0_parsing(grammar):
                 transition_counter += 1
                 if new_transition not in transitions:
                     transitions.append(new_transition)
-
+    '''
     print("LR(0)-states:")
     for state in lr0_states:
         print("State " + str(state.name) + ":")
@@ -129,7 +129,7 @@ def compute_lr0_parsing(grammar):
     print("LR(0)-transitions:")
     for transition in transitions:
         print(transition.name, transition.element, transition.starting_state, transition.ending_state)
-
+    '''
     # table creation
     header = []
     header.append('States')
@@ -176,17 +176,5 @@ def compute_lr0_parsing(grammar):
                         if isTerminal(element) or element == "$":
                             if len(new_entry) > 0:
                                 table[state.name][idx2].append(new_entry)
-    print(table)
-    '''
-    for i in range(state_counter):
-        lr0_table.add_row(table[i])
 
-    print("LR(0) parsing table of the grammar G:")
-    print(lr0_table)
-
-    if (ffc.verify_grammar(table, state_counter, total_lenght)):
-        print("The grammar G is not LR(0).")
-    else:
-        print("The grammar G is LR(0).")
-    '''
     return table, terminals, non_terminal_names, non_terminals, first_set, follow_set

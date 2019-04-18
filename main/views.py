@@ -72,7 +72,10 @@ def lr0_parser(request):
         if (lr0_form.is_valid()):
             lr0_form.cleaned_data['grammar_used_parser'] = 'lr0'
             lr0_form.cleaned_data['grammar_parsing_table_entries'] = ''
-            lr0_form.cleaned_data['grammar_user_submitter'] = request.user
+            if request.user.is_authenticated:
+                lr0_form.cleaned_data['grammar_user_submitter'] = request.user
+            else:
+                lr0_form.cleaned_data['grammar_user_submitter'] = None
             lr0_form.cleaned_data['grammar_timestamp'] = timezone.now()
             if not (Grammar.objects.filter(grammar_productions = lr0_form.cleaned_data['grammar_productions'], grammar_used_parser = 'lr0').exists()):
                 processed_grammar = []
@@ -101,17 +104,21 @@ def slr0_parser(request):
         if (slr0_form.is_valid()):
             slr0_form.cleaned_data['grammar_used_parser'] = 'slr0'
             slr0_form.cleaned_data['grammar_parsing_table_entries'] = ''
-            slr0_form.cleaned_data['grammar_user_submitter'] = request.user
+            if request.user != "AnonymousUser":
+                slr0_form.cleaned_data['grammar_user_submitter'] = request.user
+            else:
+                slr0_form.cleaned_data['grammar_user_submitter'] = ''
             slr0_form.cleaned_data['grammar_timestamp'] = timezone.now()
             if not (Grammar.objects.filter(grammar_productions = slr0_form.cleaned_data['grammar_productions'], grammar_used_parser = 'slr0').exists()):
                 processed_grammar = []
                 for production in slr0_form.cleaned_data['grammar_productions'].split('\r\n'):
                     processed_grammar.append([production])
-                test_entries, terminals, nonTerminals, non_terminals_obj, first_set, follow_set = compute_slr0_parsing(processed_grammar)
+                table, terminals, nonTerminals, non_terminals_obj, first_set, follow_set = compute_slr0_parsing(processed_grammar)
                 slr0_form.cleaned_data['grammar_terminal_symbols'] = terminals
                 slr0_form.cleaned_data['grammar_nonTerminal_symbols'] = nonTerminals
                 slr0_form.cleaned_data['grammar_first_set'] = first_set
                 slr0_form.cleaned_data['grammar_follow_set'] = follow_set
+                slr0_form.cleaned_data['grammar_parsing_table_entries'] = table
                 grammar = slr0_form.save()
             else:
                 grammar = Grammar.objects.get(grammar_productions = slr0_form.cleaned_data['grammar_productions'], grammar_used_parser = 'slr0')
@@ -205,7 +212,12 @@ def ll1_parser(request):
             messages.error(request, f"Please insert a grammar")
     return(render(request = request, template_name = "main/ll1_parser_page.html", context = {"form": ll1_form, "grammar": grammar}))
 
-def dyn_grammar_parsing(request, grammar_id):
+def dyn_grammar_bu_parsing(request, grammar_id):
     grammar = Grammar.objects.get(id = grammar_id)
     zipped_object = zip(ast.literal_eval(grammar.grammar_first_set).items(), ast.literal_eval(grammar.grammar_follow_set).items())
-    return(render(request = request, template_name = "main/grammar_parsing.html", context = {"grammar": grammar, "zip_obj": zipped_object}))
+    return(render(request = request, template_name = "main/grammar_bu_parsing.html", context = {"grammar": grammar, "zip_obj": zipped_object}))
+
+def dyn_grammar_td_parsing(request, grammar_id):
+    grammar = Grammar.objects.get(id = grammar_id)
+    zipped_object = zip(ast.literal_eval(grammar.grammar_first_set).items(), ast.literal_eval(grammar.grammar_follow_set).items())
+    return(render(request = request, template_name = "main/grammar_td_parsing.html", context = {"grammar": grammar, "zip_obj": zipped_object}))

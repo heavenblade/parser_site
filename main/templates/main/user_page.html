@@ -13,7 +13,7 @@
     <br>
     <p><h4>List of submitted grammars</h4></p>
     <br>
-    <table class="table table-bordered" style="width: 80%">
+    <table class="table table-bordered">
         <tr>
             <th>Grammar productions</th>
             <th>Parser Used</th>
@@ -34,8 +34,9 @@
                 {% elif element.grammar_used_parser == "ll1" %}
                     <td style="text-align: center;">LL(1)</td>
                 {% endif %}
-                <td>{{ element.grammar_timestamp }}</td>
+                <td>{{element.grammar_timestamp}}</td>
                 <td><input class="btn btn-primary btn-user-page" value="Parsing table" onclick="window.location.href='/{{element.grammar_used_parser}}-parser/parsing-grammar-{{element.id}}/'"/></td>
             </tr>
         {% endfor %}
+    </table>
 {% endblock %}

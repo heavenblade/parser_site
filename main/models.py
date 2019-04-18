@@ -14,7 +14,7 @@ class Grammar(models.Model):
     grammar_follow_set = models.TextField()
     grammar_used_parser = models.CharField(max_length = 20)
     grammar_parsing_table_entries = models.TextField()
-    grammar_user_submitter = models.ForeignKey(User, on_delete = models.CASCADE)
+    grammar_user_submitter = models.ForeignKey(User, on_delete = models.CASCADE, blank = True, null = True)
     grammar_timestamp = models.DateTimeField('Date submitted', default = timezone.now())
 
     def __str__(self):
@@ -37,9 +37,3 @@ class Grammar(models.Model):
 
     def get_grammar_productions_as_list(self):
         return(ast.literal_eval(self.grammar_parsing_table_entries))
-
-    def get_joined_table_entries(self):
-        if len(self) > 1:
-            return(" / ".join(self))
-        else:
-            return(self)

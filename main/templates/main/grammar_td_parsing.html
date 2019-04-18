@@ -3,22 +3,12 @@
 {% load ff_lists_content %}
 
 {% block content %}
-    {% if grammar.grammar_used_parser == "lr0" %}
-        <h3 class="title-parser-page">Grammar parsing using LR(0)-parser</h3>
-    {% elif grammar.grammar_used_parser == "slr0" %}
-        <h3 class="title-parser-page">Grammar parsing using SLR(0)-parser</h3>
-    {% elif grammar.grammar_used_parser == "lr1" %}
-        <h3 class="title-parser-page">Grammar parsing using LR(1)-parser</h3>
-    {% elif grammar.grammar_used_parser == "lalr1" %}
-        <h3 class="title-parser-page">Grammar parsing using LALR(1)-parser</h3>
-    {% elif grammar.grammar_used_parser == "ll1" %}
-        <h3 class="title-parser-page">Grammar parsing using LL(1)-parser</h3>
-    {% endif %}
+    <h3 class="title-parser-page">Grammar parsing using LL(1)-parser</h3>
     <div class="container" id="parsing_header" style="display: flex;">
         <div id="grammar_productions_div">
             <h5>Productions:</h5>
             {% for element in grammar.productions_as_list %}
-                <p>{{ element }}</p>
+                <p>{{element}}</p>
             {% endfor %}
         </div>
         <table class="table table-bordered" id="first_and_follow_table">
@@ -31,7 +21,7 @@
             </thead>
             {% for first, follow in zip_obj %}
                 <tr>
-                    <td>{{ first.0 }}</td>
+                    <td>{{first.0}}</td>
                     <td>{% get_joined_elements first.1 %}</td>
                     <td>{% get_joined_elements follow.1 %}</td>
                 </tr>
@@ -45,17 +35,17 @@
                 <tr>
                     <th style="width: 13rem;">States</th>
                     {% for terminal in grammar.get_terminals_as_list %}
-                        <th style="text-align: center;">{{ terminal }}</th>
+                        <th style="text-align: center;">{{terminal}}</th>
                     {% endfor %}
                     {% for nonTerminal in grammar.get_nonTerminals_as_list %}
-                        <th style="text-align: center;">{{ nonTerminal }}</th>
+                        <th style="text-align: center;">{{nonTerminal}}</th>
                     {% endfor %}
                 </tr>
             </thead>
                 {% for row in grammar.get_grammar_productions_as_list %}
                     <tr>
                         {% for entry in row %}
-                            <td>{{ entry }}</td>
+                            <td>{% get_joined_table_entries entry %}</td>
                         {% endfor %}
                     </tr>
                 {% endfor %}
