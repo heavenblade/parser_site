@@ -77,12 +77,12 @@ def compute_lr1_parsing(grammar):
                         new_item = lr1Item.create_new_item(item.production, item.lookAhead, item.dot+1, "Kernel", "Reduce" if item.dot+1 == len(item.production) else "Not-Reduce")
                         new_state_items.append(new_item)
             for state_n in lr1_states:
-                    if lr1State.check_kernel_equality(new_state_items, state_n):
-                        require_new_state = False
-                        destination_state = state_n.name
-                        break
-                    else:
-                        require_new_state = True
+                if lr1State.check_kernel_equality(new_state_items, state_n):
+                    require_new_state = False
+                    destination_state = state_n.name
+                    break
+                else:
+                    require_new_state = True
             if require_new_state:
                 new_state = lr1State.create_new_state(state_counter)
                 state_counter += 1
