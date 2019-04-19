@@ -136,17 +136,21 @@ def lr1_parser(request):
         if (lr1_form.is_valid()):
             lr1_form.cleaned_data['grammar_used_parser'] = 'lr1'
             lr1_form.cleaned_data['grammar_parsing_table_entries'] = ''
-            lr1_form.cleaned_data['grammar_user_submitter'] = request.user
+            if request.user.is_authenticated:
+                lr1_form.cleaned_data['grammar_user_submitter'] = request.user
+            else:
+                lr1_form.cleaned_data['grammar_user_submitter'] = None
             lr1_form.cleaned_data['grammar_timestamp'] = timezone.now()
             if not (Grammar.objects.filter(grammar_productions = lr1_form.cleaned_data['grammar_productions'], grammar_used_parser = 'lr1').exists()):
                 processed_grammar = []
                 for production in lr1_form.cleaned_data['grammar_productions'].split('\r\n'):
                     processed_grammar.append([production])
-                test_entries, terminals, nonTerminals, non_terminals_obj, first_set, follow_set = compute_lr1_parsing(processed_grammar)
+                table, terminals, nonTerminals, non_terminals_obj, first_set, follow_set = compute_lr1_parsing(processed_grammar)
                 lr1_form.cleaned_data['grammar_terminal_symbols'] = terminals
                 lr1_form.cleaned_data['grammar_nonTerminal_symbols'] = nonTerminals
                 lr1_form.cleaned_data['grammar_first_set'] = first_set
                 lr1_form.cleaned_data['grammar_follow_set'] = follow_set
+                lr1_form.cleaned_data['grammar_parsing_table_entries'] = table
                 grammar = lr1_form.save()
             else:
                 grammar = Grammar.objects.get(grammar_productions = lr1_form.cleaned_data['grammar_productions'], grammar_used_parser = 'lr1')

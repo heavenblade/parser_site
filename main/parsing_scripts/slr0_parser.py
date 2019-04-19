@@ -1,4 +1,4 @@
-from .classes_and_methods import isNonTerminal, isTerminal, collect_nonTerminal_symbols, collect_terminal_symbols, compute_first, compute_follow, lr0State, lr0Item, lr0Transition
+from .classes_and_methods import isNonTerminal, isTerminal, collect_nonTerminal_symbols, collect_terminal_symbols, compute_first, compute_follow, lr0State, lr0Item, Transition
 
 
 def compute_slr0_parsing(grammar):
@@ -90,12 +90,12 @@ def compute_slr0_parsing(grammar):
                     if new_state_item not in new_state.item_l:
                         new_state.add_item(new_state_item)
                     lr0State.apply_closure(new_state, new_state_item, grammar)
-                new_transition = lr0Transition.create_new_transition(transition_counter, element, state.name, new_state.name)
+                new_transition = Transition.create_new_transition(transition_counter, element, state.name, new_state.name)
                 transition_counter += 1
                 if new_transition not in transitions:
                     transitions.append(new_transition)
             else:
-                new_transition = lr0Transition.create_new_transition(transition_counter, element, state.name, destination_state)
+                new_transition = Transition.create_new_transition(transition_counter, element, state.name, destination_state)
                 transition_counter += 1
                 if new_transition not in transitions:
                     transitions.append(new_transition)

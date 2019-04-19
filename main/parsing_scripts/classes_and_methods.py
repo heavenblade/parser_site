@@ -1,6 +1,3 @@
-import numpy
-import sys
-
 # function that returns True if a symbol is terminal and False otherwise
 def isTerminal(element):
     isSymbol = False
@@ -315,7 +312,7 @@ class lr1State:
         else:
             return False
 
-    def apply_closure(state, my_item, recursion):
+    def apply_closure(state, my_item, recursion, grammar, non_terminals):
         if my_item.isReduceItem == "Not-Reduce":
             if isNonTerminal(my_item.production[my_item.dot]):
                 for production in grammar:
@@ -347,30 +344,30 @@ class lr1State:
                                 p_prog += 1
                         temp_type = ""
                         if production[0][3] == "#":
-                            new_temp_item = create_new_lr0_item(production[0], 3, "Closure", "Reduce")
+                            new_temp_item = lr0Item.create_new_item(production[0], 3, "Closure", "Reduce")
                             temp_type = "Reduce"
                         else:
-                            new_temp_item = create_new_lr0_item(production[0], 3, "Closure", "Not-Reduce")
+                            new_temp_item = lr0Item.create_new_item(production[0], 3, "Closure", "Not-Reduce")
                             temp_type = "Not-Reduce"
                         found = False
                         for item_for_la_merge in state.item_l:
-                            temp_item = create_new_lr0_item(item_for_la_merge.production, item_for_la_merge.dot, item_for_la_merge.type, item_for_la_merge.isReduceItem)
+                            temp_item = lr0Item.create_new_item(item_for_la_merge.production, item_for_la_merge.dot, item_for_la_merge.type, item_for_la_merge.isReduceItem)
                             if temp_item == new_temp_item:
                                 for la_to_merge in temp_lookAhead_l:
                                     if la_to_merge not in item_for_la_merge.lookAhead:
                                         item_for_la_merge.lookAhead.append(la_to_merge)
                                 found = True
                         if not found:
-                            new_item = create_new_lr1_item(production[0], temp_lookAhead_l, 3, "Closure", temp_type)
+                            new_item = lr1Item.create_new_item(production[0], temp_lookAhead_l, 3, "Closure", temp_type)
                             if new_item not in state.item_l:
                                 state.item_l.append(new_item)
                                 #print("Adding " + new_item.production + " to state " + str(state.name))
                                 if recursion < 2:
                                     if isNonTerminal(new_item.production[new_item.dot]):
                                         #print("recurring for " + new_item.production, recursion)
-                                        apply_closure(state, new_item, recursion+1)
+                                        lr1State.apply_closure(state, new_item, recursion+1, grammar, non_terminals)
 #------------------------------------------------------------------------------
-class lr0Transition:
+class Transition:
     name = 0
     element = ''
     starting_state = 0
@@ -383,5 +380,5 @@ class lr0Transition:
         self.ending_state = e_state
 
     def create_new_transition (name, element, s_state, e_state):
-        new_transition = lr0Transition(name, element, s_state, e_state)
+        new_transition = Transition(name, element, s_state, e_state)
         return new_transition
