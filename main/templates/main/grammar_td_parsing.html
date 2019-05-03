@@ -37,15 +37,17 @@
                     {% for terminal in grammar.get_terminals_as_list %}
                         <th style="text-align: center;">{{terminal}}</th>
                     {% endfor %}
-                    {% for nonTerminal in grammar.get_nonTerminals_as_list %}
-                        <th style="text-align: center;">{{nonTerminal}}</th>
-                    {% endfor %}
                 </tr>
             </thead>
                 {% for row in grammar.get_grammar_productions_as_list %}
                     <tr>
                         {% for entry in row %}
-                            <td>{% get_joined_table_entries entry %}</td>
+                            {% check_entry_type entry as is_entry_state_column %}
+                            {% if is_entry_state_column %}
+                                <td>{{entry}}</td>
+                            {% else %}
+                                <td style="text-align: center;">{% get_joined_table_entries entry %}</td>
+                            {% endif %}
                         {% endfor %}
                     </tr>
                 {% endfor %}
