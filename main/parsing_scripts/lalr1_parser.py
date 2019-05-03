@@ -13,7 +13,6 @@ def compute_lalr1_parsing(grammar):
     rec_equations = []
     state_counter = 0
     transition_counter = 0
-    rec_equations_counter = 0
 
     # collecting non-terminal symbols
     non_terminal_names, non_terminals = collect_nonTerminal_symbols(grammar)
@@ -52,26 +51,26 @@ def compute_lalr1_parsing(grammar):
     initial_state = lr0State.create_new_state(state_counter)
     state_counter += 1
     initial_state.isInitialState = True
-    s_item = lr0Item.create_new_item(a_grammar[0], 3, "Kernel", "Not-Reduce")
-    initial_lookahead, rec_equations_counter = RecursiveEquation.create_new_rec_equation(rec_equations_counter)
+    s_item = lr0Item.create_new_item(a_grammar[0], "Kernel", 3, "Not-Reduce")
+    initial_lookahead = RecursiveEquation.create_new_rec_equation()
     initial_lookahead.symbol_list.append("$")
-    s_item.add_rec_equation(initial_lookahead)
+    #lr0Item.add_rec_equation(s_item, initial_lookahead)
+    s_item.set_of_rec_equations.append(initial_lookahead)
     rec_equations.append(initial_lookahead)
-    initial_state.add_item(s_item)
-    lr0State.apply_closure_lalr_version(initial_state, s_item, 0, grammar, non_terminals, rec_equations_counter)
+    initial_state.item_l.append(s_item)
+    lr0State.apply_closure_lalr_version(initial_state, s_item, 0, grammar, non_terminals, rec_equations)
     lr0_states.append(initial_state)
 
     # rest of automaton computation
     for state in lr0_states:
         for i in range(3): # temporary solution to recursive closure applications
             for clos_item in state.item_l:
-                lr0State.apply_closure_lalr_version(state, clos_item, 0, grammar, non_terminals, rec_equations_counter)
+                lr0State.apply_closure_lalr_version(state, clos_item, 0, grammar, non_terminals, rec_equations)
         new_symb_transitions = []
         for item in state.item_l:
             if item.isReduceItem == "Not-Reduce":
                 if item.production[item.dot] not in new_symb_transitions:
                     new_symb_transitions.append(item.production[item.dot])
-
         for element in new_symb_transitions:
             require_new_state = False
             destination_state = 0
@@ -79,9 +78,9 @@ def compute_lalr1_parsing(grammar):
             for item in state.item_l:
                 if item.isReduceItem != "Reduce":
                     if item.production[item.dot] == element:
-                        new_item = lr0Item.create_new_item(item.production, item.dot+1, "Kernel", "Reduce" if item.dot+1 == len(item.production) else "Not-Reduce")
+                        new_item = lr0Item.create_new_item(item.production, "Kernel", item.dot+1, "Reduce" if item.dot+1 == len(item.production) else "Not-Reduce")
                         for rec_eq in item.set_of_rec_equations:
-                            new_item.add_rec_equation(rec_eq)
+                            new_item.set_of_rec_equations.append(rec_eq)
                         new_state_items.append(new_item)
             for state_n in lr0_states:
                 if lr0State.check_kernel_equality(new_state_items, state_n):
@@ -96,8 +95,8 @@ def compute_lalr1_parsing(grammar):
                 lr0_states.append(new_state)
                 for new_state_item in new_state_items:
                     if new_state_item not in new_state.item_l:
-                        new_state.add_item(new_state_item)
-                    lr0State.apply_closure_lalr_version(new_state, new_state_item, 0, grammar, non_terminals, rec_equations_counter)
+                        new_state.item_l.append(new_state_item)
+                    lr0State.apply_closure_lalr_version(new_state, new_state_item, 0, grammar, non_terminals, rec_equations)
                 new_transition = Transition.create_new_transition(transition_counter, element, state.name, new_state.name)
                 transition_counter += 1
                 if new_transition not in transitions:
@@ -139,7 +138,6 @@ def compute_lalr1_parsing(grammar):
         else:
             finished_solving = False
     '''
-    print(rec_equations)
     for rec_eq in rec_equations:
         print(rec_eq.name + " =", rec_eq.symbol_list)
     print("LALR(1)-states:")

@@ -51,7 +51,7 @@ def compute_lr1_parsing(grammar):
     initial_state = lr1State.create_new_state(state_counter)
     state_counter += 1
     initial_state.isInitialState = True
-    s_item = lr1Item.create_new_item(a_grammar[0], ['$'], 3, "Kernel", "Not-Reduce")
+    s_item = lr1Item.create_new_item(a_grammar[0], ['$'], "Kernel", 3, "Not-Reduce")
     initial_state.add_item(s_item)
     lr1State.apply_closure(initial_state, s_item, 0, grammar, non_terminals)
     lr1_states.append(initial_state)
@@ -74,7 +74,7 @@ def compute_lr1_parsing(grammar):
             for item in state.item_l:
                 if item.isReduceItem != "Reduce":
                     if item.production[item.dot] == element:
-                        new_item = lr1Item.create_new_item(item.production, item.lookAhead, item.dot+1, "Kernel", "Reduce" if item.dot+1 == len(item.production) else "Not-Reduce")
+                        new_item = lr1Item.create_new_item(item.production, item.lookAhead, "Kernel", item.dot+1, "Reduce" if item.dot+1 == len(item.production) else "Not-Reduce")
                         new_state_items.append(new_item)
             for state_n in lr1_states:
                 if lr1State.check_kernel_equality(new_state_items, state_n):

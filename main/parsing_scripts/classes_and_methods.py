@@ -1,3 +1,4 @@
+from .utils import support_variables as sv
 # function that returns True if a symbol is terminal and False otherwise
 def isTerminal(element):
     isSymbol = False
@@ -151,13 +152,13 @@ class Transition:
     starting_state = 0
     ending_state = 0
 
-    def __init__ (self, transition_count, elem, s_state, e_state):
+    def __init__(self, transition_count, elem, s_state, e_state):
         self.name = transition_count
         self.element = elem
         self.starting_state = s_state
         self.ending_state = e_state
 
-    def create_new_transition (name, element, s_state, e_state):
+    def create_new_transition(name, element, s_state, e_state):
         new_transition = Transition(name, element, s_state, e_state)
         return new_transition
 #------------------------------------------------------------------------------
@@ -166,19 +167,19 @@ class RecursiveEquation:
     symbol_list = []
     solved = False
 
-    def __init__ (self, name):
+    def __init__(self, name):
         self.name = name
         self.symbol_list = []
         self.solved = False
 
-    def __str__ (self):
+    def __str__(self):
         return str(self.name)
 
-    def create_new_rec_equation (rec_equations_counter):
-        rec_eq_name = "x"+str(rec_equations_counter)
+    def create_new_rec_equation():
+        rec_eq_name = "x"+str(sv.rec_equations_counter)
         new_equation = RecursiveEquation(rec_eq_name)
-        rec_equations_counter += 1
-        return new_equation, rec_equations_counter
+        sv.rec_equations_counter += 1
+        return new_equation
 #------------------------------------------------------------------------------
 class nonTerminal:
     name = ''
@@ -212,14 +213,14 @@ class lr0Item:
         self.isReduceItem = reduct
         self.set_of_rec_equations = []
 
-    def __str__(self):
-        return(self.production, self.type, self.dot, self.isReduceItem)
-
     def __eq__(self, other):
-        if (self.production == other.production and self.type == other.type and self.dot == other.dot and self.isReduceItem == other.isReduceItem):
+        if self.production == other.production and self.type == other.type and self.dot == other.dot and self.isReduceItem == other.isReduceItem:
             return True
         else:
             return False
+
+    def __str__(self):
+        return self.production
 
     def __hash__(self):
         return hash((self.production, self.type, self.dot, self.isReduceItem))
@@ -227,9 +228,6 @@ class lr0Item:
     def create_new_item(production, type, dot, reduct):
         new_item = lr0Item(production, type, dot, reduct)
         return new_item
-
-    def add_rec_equation (self, rec_eq):
-        self.set_of_rec_equations.append(rec_eq)
 #------------------------------------------------------------------------------
 class lr0State:
     name = 0
@@ -241,9 +239,6 @@ class lr0State:
         self.item_l = []
         self.isInitialState = False
 
-    def add_item(self, item):
-        self.item_l.append(item)
-
     def create_new_state(name):
         new_state = lr0State(name)
         return new_state
@@ -251,7 +246,7 @@ class lr0State:
     def check_kernel_equality(new_kernel, state_n):
         state_n_ker = []
         for item in state_n.item_l:
-            if (item.type == "Kernel"):
+            if item.type == "Kernel":
                 state_n_ker.append(item)
         if set(new_kernel) == set(state_n_ker):
             return True
@@ -268,11 +263,11 @@ class lr0State:
                         else:
                             new_item = lr0Item.create_new_item(production[0], "Closure", 3, "Not-Reduce")
                         if new_item not in state.item_l:
-                            state.add_item(new_item)
+                            state.item_l.append(new_item)
                             if isNonTerminal(new_item.production[new_item.dot]):
                                 lr0State.apply_closure(state, new_item, grammar)
 
-    def apply_closure_lalr_version (state, my_item, recursion, grammar, non_terminals, rec_equations_counter):
+    def apply_closure_lalr_version(state, my_item, recursion, grammar, non_terminals, rec_equations):
         if my_item.isReduceItem == "Not-Reduce":
             if isNonTerminal(my_item.production[my_item.dot]):
                 for production in grammar:
@@ -285,7 +280,7 @@ class lr0State:
                         else:
                             p_prog = my_item.dot
                             stopped = False
-                            while (p_prog+1 <= len(my_item.production)-1 and not stopped):
+                            while p_prog <= len(my_item.production) and not stopped:
                                 if isTerminal(my_item.production[p_prog+1]):
                                     if my_item.production[p_prog+1] not in temp_lookAhead_l:
                                         temp_lookAhead_l.append(my_item.production[p_prog+1])
@@ -304,26 +299,26 @@ class lr0State:
                                                                 temp_lookAhead_l.append(item_clos_rec_eq)
                                 p_prog += 1
                         if production[0][3] == "#":
-                            new_temp_item = lr0Item.create_new_item(production[0], 3, "Closure", "Reduce")
+                            new_temp_item = lr0Item.create_new_item(production[0], "Closure", 3, "Reduce")
                             temp_type = "Reduce"
                         else:
-                            new_temp_item = lr0Item.create_new_item(production[0], 3, "Closure", "Not-Reduce")
+                            new_temp_item = lr0Item.create_new_item(production[0], "Closure", 3, "Not-Reduce")
                             temp_type = "Not-Reduce"
                         found = False
                         for item_for_la_merge in state.item_l:
-                            tmp_item = lr0Item.create_new_item(item_for_la_merge.production, item_for_la_merge.dot, item_for_la_merge.type, item_for_la_merge.isReduceItem)
+                            tmp_item = lr0Item.create_new_item(item_for_la_merge.production, item_for_la_merge.type, item_for_la_merge.dot, item_for_la_merge.isReduceItem)
                             if tmp_item == new_temp_item:
                                 for la_to_merge in temp_lookAhead_l:
                                     if la_to_merge not in item_for_la_merge.set_of_rec_equations[0].symbol_list:
                                         item_for_la_merge.set_of_rec_equations[0].symbol_list.append(la_to_merge)
                                 found = True
                         if not found:
-                            new_item = lr0Item.create_new_item(production[0], 3, "Closure", temp_type)
-                            new_item_rec_eq, rec_equations_counter = RecursiveEquation.create_new_rec_equation(rec_equations_counter)
+                            new_item = lr0Item.create_new_item(production[0], "Closure", 3, temp_type)
+                            new_item_rec_eq = RecursiveEquation.create_new_rec_equation()
                             for symb_to_add in temp_lookAhead_l:
                                 if symb_to_add not in new_item_rec_eq.symbol_list:
                                     new_item_rec_eq.symbol_list.append(symb_to_add)
-                            new_item.add_rec_equation(new_item_rec_eq)
+                            new_item.set_of_rec_equations.append(new_item_rec_eq)
                             rec_equations.append(new_item_rec_eq)
                             if new_item not in state.item_l:
                                 state.item_l.append(new_item)
@@ -331,26 +326,26 @@ class lr0State:
                                 if recursion < 2:
                                     if isNonTerminal(new_item.production[new_item.dot]):
                                         #print("recurring for " + new_item.production, recursion)
-                                        lr0State.apply_closure_lalr_version(state, new_item, recursion+1, grammar, non_terminals, rec_equations_counter)
+                                        lr0State.apply_closure_lalr_version(state, new_item, recursion+1, grammar, non_terminals, rec_equations)
 #------------------------------------------------------------------------------
 class lr1Item:
     production = []
     lookAhead = []
-    dot = 0
     type = ""
+    dot = 0
     isReduceItem = False
 
-    def __init__ (self, production, LA, dot, type, reduct):
+    def __init__(self, production, LA, type, dot, reduct):
         self.production = production
         self.lookAhead = LA
-        self.dot = dot
         self.type = type
+        self.dot = dot
         self.isReduceItem = reduct
 
-    def __eq__ (self, other):
+    def __eq__(self, other):
         equal = False
         lookaheads = []
-        if self.production == other.production and self.dot == other.dot and self.type == other.type and self.isReduceItem == other.isReduceItem:
+        if self.production == other.production and self.type == other.type and self.dot == other.dot and self.isReduceItem == other.isReduceItem:
             for element in self.lookAhead:
                 if element not in lookaheads:
                     lookaheads.append(element)
@@ -375,13 +370,13 @@ class lr1Item:
             return False
 
     def __hash__(self):
-        return hash((self.production, self.dot, self.type, self.isReduceItem))
+        return hash((self.production, self.type, self.dot, self.isReduceItem))
 
-    def create_new_item (production, LA, dot, type, reduct):
-        new_item = lr1Item(production, LA, dot, type, reduct)
+    def create_new_item(production, LA, type, dot, reduct):
+        new_item = lr1Item(production, LA, type, dot, reduct)
         return new_item
 
-    def set_lookaheads (self, lookahead_l):
+    def set_lookaheads(self, lookahead_l):
         self.lookAhead = lookahead_l
 #------------------------------------------------------------------------------
 class lr1State:
@@ -389,15 +384,15 @@ class lr1State:
     item_l = []
     isInitialState = False
 
-    def __init__ (self, state_count):
+    def __init__(self, state_count):
         self.name = state_count
         self.item_l = []
         self.isInitialState = False
 
-    def add_item (self, item):
+    def add_item(self, item):
         self.item_l.append(item)
 
-    def create_new_state (name):
+    def create_new_state(name):
         new_state = lr1State(name)
         return new_state
 
@@ -443,10 +438,10 @@ class lr1State:
                                 p_prog += 1
                         temp_type = ""
                         if production[0][3] == "#":
-                            new_temp_item = lr0Item.create_new_item(production[0], 3, "Closure", "Reduce")
+                            new_temp_item = lr0Item.create_new_item(production[0], "Closure", 3, "Reduce")
                             temp_type = "Reduce"
                         else:
-                            new_temp_item = lr0Item.create_new_item(production[0], 3, "Closure", "Not-Reduce")
+                            new_temp_item = lr0Item.create_new_item(production[0], "Closure", 3, "Not-Reduce")
                             temp_type = "Not-Reduce"
                         found = False
                         for item_for_la_merge in state.item_l:
@@ -457,7 +452,7 @@ class lr1State:
                                         item_for_la_merge.lookAhead.append(la_to_merge)
                                 found = True
                         if not found:
-                            new_item = lr1Item.create_new_item(production[0], temp_lookAhead_l, 3, "Closure", temp_type)
+                            new_item = lr1Item.create_new_item(production[0], temp_lookAhead_l, "Closure", 3, temp_type)
                             if new_item not in state.item_l:
                                 state.item_l.append(new_item)
                                 #print("Adding " + new_item.production + " to state " + str(state.name))
