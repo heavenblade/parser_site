@@ -19,3 +19,13 @@ def check_entry_type(entry):
         return True
     else:
         return False
+
+@register.simple_tag
+def check_multiply_defined(table):
+    mult_def = False
+    for idx_row, row in enumerate(table):
+        for idx_col in range(len(row)):
+            if (idx_col != 0):
+                if (len(table[idx_row][idx_col]) > 1):
+                    mult_def = True
+    return mult_def

@@ -19,22 +19,31 @@
                 <p>{{element}}</p>
             {% endfor %}
         </div>
-        <table class="table table-bordered" id="first_and_follow_table">
-            <thead>
-                <tr>
-                    <th>Non terminal</th>
-                    <th>Set of FIRST symbols</th>
-                    <th>Set of FOLLOW symbols</th>
-                </tr>
-            </thead>
-            {% for first, follow in zip_obj %}
-                <tr>
-                    <td>{{first.0}}</td>
-                    <td>{% get_joined_elements first.1 %}</td>
-                    <td>{% get_joined_elements follow.1 %}</td>
-                </tr>
-            {% endfor %}
-        </table>
+        <div style="width: inherit;">
+            {% check_multiply_defined grammar.get_grammar_productions_as_list as is_multiply_defined %}
+            {% if is_multiply_defined %}
+                <h5>The grammar is not LALR(1)</h5>
+            {% else %}
+                <h5>The grammar is LALR(1)</h5>
+            {% endif %}
+            <br>
+            <table class="table table-bordered" id="first_and_follow_table">
+                <thead>
+                    <tr>
+                        <th>Non terminal</th>
+                        <th>Set of FIRST symbols</th>
+                        <th>Set of FOLLOW symbols</th>
+                    </tr>
+                </thead>
+                {% for first, follow in zip_obj %}
+                    <tr>
+                        <td>{{first.0}}</td>
+                        <td>{% get_joined_elements first.1 %}</td>
+                        <td>{% get_joined_elements follow.1 %}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
     </div>
     <div class="container" id="parsing_content">
         <h5>Parsing table</h5>

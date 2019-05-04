@@ -280,7 +280,7 @@ class lr0State:
                         else:
                             p_prog = my_item.dot
                             stopped = False
-                            while p_prog <= len(my_item.production) and not stopped:
+                            while p_prog+1 <= len(my_item.production)-1 and not stopped:
                                 if isTerminal(my_item.production[p_prog+1]):
                                     if my_item.production[p_prog+1] not in temp_lookAhead_l:
                                         temp_lookAhead_l.append(my_item.production[p_prog+1])
