@@ -13,14 +13,14 @@
     <br>
     <p><h4>List of submitted grammars</h4></p>
     <br>
-    <table class="table table-bordered">
+    <table id="user_table" class="table table-bordered">
         <tr>
             <th>Grammar productions</th>
             <th>Parser Used</th>
             <th>Date of submission</th>
             <th>Link to the parsing table</th>
         </tr>
-        {% for element in grammars %}
+        {% for element in grammars reversed %}
             <tr>
                 <td>{{ element.grammar_productions }}</td>
                 {% if element.grammar_used_parser == "lr0" %}

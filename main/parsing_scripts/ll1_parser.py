@@ -179,7 +179,5 @@ def compute_ll1_parsing(grammar):
                                 #print("Adding " + production[0] + " to [" + str(driver_index) + "," + str(terminal_index) + "] - 6 watching " + production[0][p_prog])
                                 table[driver_index][terminal_index+1].append(production[0])
                             stopped = True
-    print(table)
-
 
     return table, terminals, non_terminal_names, non_terminals, first_set, follow_set
