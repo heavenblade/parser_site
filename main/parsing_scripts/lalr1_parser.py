@@ -54,7 +54,6 @@ def compute_lalr1_parsing(grammar):
     s_item = lr0Item.create_new_item(a_grammar[0], "Kernel", 3, "Not-Reduce")
     initial_lookahead = RecursiveEquation.create_new_rec_equation()
     initial_lookahead.symbol_list.append("$")
-    #lr0Item.add_rec_equation(s_item, initial_lookahead)
     s_item.set_of_rec_equations.append(initial_lookahead)
     rec_equations.append(initial_lookahead)
     initial_state.item_l.append(s_item)

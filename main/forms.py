@@ -51,7 +51,7 @@ class MyGrammarInsertForm(forms.ModelForm):
                 "id": "lr0_prod_text_area",
                 "placeholder": "S->AB\nA->a\nB->#",
                 "rows": 10,
-                "cols": 20,
+                "cols": 30,
             }
         )
     )

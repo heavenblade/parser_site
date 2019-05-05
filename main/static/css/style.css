@@ -76,7 +76,7 @@ a.custom-card:hover {
 }
 
 .btn-parser-page {
-    width: 100px;
+    width: 170px;
     position: absolute;
     margin-left: 30px;
     margin-top: 100px;
@@ -195,11 +195,30 @@ a.custom-card:hover {
     padding-left: 0;
 }
 
+/* Insert grammar page */
+#lr0_content_container {
+    text-align: center;
+}
+
+/* #lr0_body {
+    z-index: 1;
+}
+
+#lr0_body:after {
+    z-index: -1;
+    opacity: 0.3;
+    background-image: url('/static/img/graph_large.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position-x: 12rem;
+    background-position-y: 5rem;
+} */
+
 /* Login page */
 #login_page_content {
     position: absolute;
     margin-top: 1rem;
-    left: 40%;
+    left: 38%;
     top: 10%
 }
 
@@ -233,7 +252,7 @@ a.custom-card:hover {
 #register_page_content {
     position: absolute;
     margin-top: 1rem;
-    left: 40%;
+    left: 38%;
     top: 10%;
 }
 

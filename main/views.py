@@ -90,7 +90,6 @@ def lr0_parser(request):
                 grammar = lr0_form.save()
             else:
                 grammar = Grammar.objects.get(grammar_productions = lr0_form.cleaned_data['grammar_productions'], grammar_used_parser = 'lr0')
-                print("Grammar already exists") ### Return that grammar which is already saved in database (maybe with the same method as the check above)
             return(redirect('/lr0-parser/parsing-grammar-' + str(grammar.id)))
         else:
             messages.error(request, f"Please insert a grammar")
@@ -122,7 +121,6 @@ def slr0_parser(request):
                 grammar = slr0_form.save()
             else:
                 grammar = Grammar.objects.get(grammar_productions = slr0_form.cleaned_data['grammar_productions'], grammar_used_parser = 'slr0')
-                print("Grammar already exists") ### Return that grammar which is already saved in database (maybe with the same method as the check above)
             return(redirect('/slr0-parser/parsing-grammar-' + str(grammar.id)))
         else:
             messages.error(request, f"Please insert a grammar")
@@ -154,7 +152,6 @@ def lr1_parser(request):
                 grammar = lr1_form.save()
             else:
                 grammar = Grammar.objects.get(grammar_productions = lr1_form.cleaned_data['grammar_productions'], grammar_used_parser = 'lr1')
-                print("Grammar already exists") ### Return that grammar which is already saved in database (maybe with the same method as the check above)
             return(redirect('/lr1-parser/parsing-grammar-' + str(grammar.id)))
         else:
             messages.error(request, f"Please insert a grammar")
@@ -186,7 +183,6 @@ def lalr1_parser(request):
                 grammar = lalr1_form.save()
             else:
                 grammar = Grammar.objects.get(grammar_productions = lalr1_form.cleaned_data['grammar_productions'], grammar_used_parser = 'lalr1')
-                print("Grammar already exists") ### Return that grammar which is already saved in database (maybe with the same method as the check above)
             return(redirect('/lalr1-parser/parsing-grammar-' + str(grammar.id)))
         else:
             messages.error(request, f"Please insert a grammar")
@@ -218,7 +214,6 @@ def ll1_parser(request):
                 grammar = ll1_form.save()
             else:
                 grammar = Grammar.objects.get(grammar_productions = ll1_form.cleaned_data['grammar_productions'], grammar_used_parser = 'll1')
-                print("Grammar already exists") ### Return that grammar which is already saved in database (maybe with the same method as the check above)
             return(redirect('/ll1-parser/parsing-grammar-' + str(grammar.id)))
         else:
             messages.error(request, f"Please insert a grammar")
@@ -226,10 +221,10 @@ def ll1_parser(request):
 
 def dyn_grammar_bu_parsing(request, grammar_id):
     grammar = Grammar.objects.get(id = grammar_id)
-    zipped_object = zip(ast.literal_eval(grammar.grammar_first_set).items(), ast.literal_eval(grammar.grammar_follow_set).items())
-    return(render(request = request, template_name = "main/grammar_bu_parsing.html", context = {"grammar": grammar, "zip_obj": zipped_object}))
+    first_follow_obj = zip(ast.literal_eval(grammar.grammar_first_set).items(), ast.literal_eval(grammar.grammar_follow_set).items())
+    return(render(request = request, template_name = "main/grammar_bu_parsing.html", context = {"grammar": grammar, "ff_obj": first_follow_obj}))
 
 def dyn_grammar_td_parsing(request, grammar_id):
     grammar = Grammar.objects.get(id = grammar_id)
-    zipped_object = zip(ast.literal_eval(grammar.grammar_first_set).items(), ast.literal_eval(grammar.grammar_follow_set).items())
-    return(render(request = request, template_name = "main/grammar_td_parsing.html", context = {"grammar": grammar, "zip_obj": zipped_object}))
+    first_follow_obj = zip(ast.literal_eval(grammar.grammar_first_set).items(), ast.literal_eval(grammar.grammar_follow_set).items())
+    return(render(request = request, template_name = "main/grammar_td_parsing.html", context = {"grammar": grammar, "ff_obj": first_follow_obj}))
