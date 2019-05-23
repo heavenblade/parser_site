@@ -1,17 +1,19 @@
 {% extends "main/home.html" %}
 
 {% block content %}
-    <h3>LL(1)-parser page</h3>
-    <br>
-    <div id="ll1_content_container">
-        <h5 id="grammar_subtitle"><p>Insert your grammar here:</p></h5>
-        <h6><p>Note: # is treated as &epsilon;</p></h6>
-        <div>
-            <form method="POST">
-                {% csrf_token %}
-                {{ form }}
-                <button type="submit" class="btn btn-primary btn-parser-page" id="ll1_parse_button">Parse!</button>
-            </form>
+    <div id="ll1_body">
+        <h3 style="text-align: center;">LL(1)-parser page</h3>
+        <br>
+        <div id="ll1_content_container">
+            <h5 id="grammar_subtitle"><p>Insert your grammar here:</p></h5>
+            <h6><p>Note: The augumented grammar is created automatically.<br>The character '#' is treated as &epsilon;</p></h6>
+            <div>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form }}
+                    <button type="submit" class="btn btn-primary btn-parser-page" id="ll1_parse_button">Parse!</button>
+                </form>
+            </div>
         </div>
     </div>
 {% endblock %}

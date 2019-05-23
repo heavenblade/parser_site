@@ -22,9 +22,25 @@
         <div style="width: inherit;">
             {% check_multiply_defined grammar.get_grammar_productions_as_list as is_multiply_defined %}
             {% if is_multiply_defined %}
-                <h5>The grammar is not LALR(1)</h5>
+                {% if grammar.grammar_used_parser == "lr0" %}
+                    <h5>The grammar is not LR(0)</h5>
+                {% elif grammar.grammar_used_parser == "slr0" %}
+                    <h5>The grammar is not SLR(0)</h5>
+                {% elif grammar.grammar_used_parser == "lr1" %}
+                    <h5>The grammar is not LR(1)</h5>
+                {% elif grammar.grammar_used_parser == "lalr1" %}
+                    <h5>The grammar is not LALR(1)</h5>
+                {% endif %}
             {% else %}
-                <h5>The grammar is LALR(1)</h5>
+                {% if grammar.grammar_used_parser == "lr0" %}
+                    <h5>The grammar is LR(0)</h5>
+                {% elif grammar.grammar_used_parser == "slr0" %}
+                    <h5>The grammar is SLR(0)</h5>
+                {% elif grammar.grammar_used_parser == "lr1" %}
+                    <h5>The grammar is LR(1)</h5>
+                {% elif grammar.grammar_used_parser == "lalr1" %}
+                    <h5>The grammar is LALR(1)</h5>
+                {% endif %}
             {% endif %}
             <br>
             <table class="table table-bordered" id="first_and_follow_table">

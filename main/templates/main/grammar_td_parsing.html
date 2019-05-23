@@ -14,9 +14,9 @@
         <div style="width: inherit;">
             {% check_multiply_defined grammar.get_grammar_productions_as_list as is_multiply_defined %}
             {% if is_multiply_defined %}
-                <h5>The grammar is not LALR(1)</h5>
+                <h5>The grammar is not LL(1)</h5>
             {% else %}
-                <h5>The grammar is LALR(1)</h5>
+                <h5>The grammar is LL(1)</h5>
             {% endif %}
             <br>
             <table class="table table-bordered" id="first_and_follow_table">
