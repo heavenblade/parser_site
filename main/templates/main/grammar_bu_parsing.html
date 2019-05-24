@@ -33,13 +33,25 @@
                 {% endif %}
             {% else %}
                 {% if grammar.grammar_used_parser == "lr0" %}
-                    <h5>The grammar is LR(0)</h5>
+                    <div>
+                        <h5 id="parsing_res">The grammar is LR(0)</h5>
+                        <button type="submit" class="btn btn-primary" id="view_automaton_btn">View the graph!</button>
+                    </div>
                 {% elif grammar.grammar_used_parser == "slr0" %}
-                    <h5>The grammar is SLR(0)</h5>
+                    <div>
+                        <h5 id="parsing_res">The grammar is SLR(0)</h5>
+                        <button type="submit" class="btn btn-primary" id="view_automaton_btn">View the graph!</button>
+                    </div>
                 {% elif grammar.grammar_used_parser == "lr1" %}
-                    <h5>The grammar is LR(1)</h5>
+                    <div>
+                        <h5 id="parsing_res">The grammar is LR(1)</h5>
+                        <button type="submit" class="btn btn-primary" id="view_automaton_btn">View the graph!</button>
+                    </div>
                 {% elif grammar.grammar_used_parser == "lalr1" %}
-                    <h5>The grammar is LALR(1)</h5>
+                    <div>
+                        <h5 id="parsing_res">The grammar is LALR(1)</h5>
+                        <button type="submit" class="btn btn-primary" id="view_automaton_btn">View the graph!</button>
+                    </div>
                 {% endif %}
             {% endif %}
             <br>

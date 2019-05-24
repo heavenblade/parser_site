@@ -16,7 +16,10 @@
             {% if is_multiply_defined %}
                 <h5>The grammar is not LL(1)</h5>
             {% else %}
-                <h5>The grammar is LL(1)</h5>
+                <div>
+                    <h5 id="parsing_res">The grammar is LL(1)</h5>
+                    <button type="submit" class="btn btn-primary" id="view_automaton_btn">View the graph!</button>
+                </div>
             {% endif %}
             <br>
             <table class="table table-bordered" id="first_and_follow_table">

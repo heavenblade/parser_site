@@ -369,3 +369,13 @@ label {
     width: 20rem;
     font-size: 1.25rem;
 }
+
+#parsing_res {
+    display: inline;
+}
+
+#view_automaton_btn {
+    display: inline;
+    width: 170px;
+    margin-left: 1rem;
+}
