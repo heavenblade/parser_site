@@ -103,10 +103,10 @@ def slr0_parser(request):
         if (slr0_form.is_valid()):
             slr0_form.cleaned_data['grammar_used_parser'] = 'slr0'
             slr0_form.cleaned_data['grammar_parsing_table_entries'] = ''
-            if request.user != "AnonymousUser":
+            if request.user.is_authenticated:
                 slr0_form.cleaned_data['grammar_user_submitter'] = request.user
             else:
-                slr0_form.cleaned_data['grammar_user_submitter'] = ''
+                slr0_form.cleaned_data['grammar_user_submitter'] = None
             slr0_form.cleaned_data['grammar_timestamp'] = timezone.now()
             if not (Grammar.objects.filter(grammar_productions = slr0_form.cleaned_data['grammar_productions'], grammar_used_parser = 'slr0').exists()):
                 processed_grammar = []

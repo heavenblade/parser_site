@@ -389,9 +389,6 @@ class lr1State:
         self.item_l = []
         self.isInitialState = False
 
-    def add_item(self, item):
-        self.item_l.append(item)
-
     def create_new_state(name):
         new_state = lr1State(name)
         return new_state

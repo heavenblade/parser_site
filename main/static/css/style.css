@@ -87,6 +87,12 @@ a.custom-card:hover {
     margin-bottom: 2rem;
 }
 
+/* Tags styles */
+
+label {
+    font-size: 18px;
+}
+
 /* Single elements styles */
 
 /* Homepage */
@@ -228,8 +234,10 @@ a.custom-card:hover {
     border-radius: 5px;
     border-width: 1px;
     display: block;
-    width: 300px;
+    width: 100%;
+    font-size: 22px;
     margin-bottom: 1.5rem;
+    padding: 5px;
 }
 
 #id_password:focus {
@@ -262,8 +270,10 @@ a.custom-card:hover {
     border-radius: 5px;
     border-width: 1px;
     display: block;
-    width: 300px;
+    width: 100%;
+    font-size: 22px;
     margin-bottom: 1.5rem;
+    padding: 5px;
 }
 
 #id_username:focus {
@@ -274,8 +284,10 @@ a.custom-card:hover {
     border-radius: 5px;
     border-width: 1px;
     display: block;
-    width: 300px;
+    width: 100%;
+    font-size: 22px;
     margin-bottom: 1.5rem;
+    padding: 5px;
 }
 
 #id_email:focus {
@@ -286,7 +298,9 @@ a.custom-card:hover {
     border-radius: 5px;
     border-width: 1px;
     display: block;
-    width: 300px;
+    width: 100%;
+    font-size: 22px;
+    padding: 5px;
 }
 
 #id_password1:focus {
@@ -297,7 +311,9 @@ a.custom-card:hover {
     border-radius: 5px;
     border-width: 1px;
     display: block;
-    width: 300px;
+    width: 100%;
+    font-size: 22px;
+    padding: 5px;
 }
 
 #id_password2:focus {

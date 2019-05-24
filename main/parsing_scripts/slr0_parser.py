@@ -52,7 +52,7 @@ def compute_slr0_parsing(grammar):
     state_counter += 1
     initial_state.isInitialState = True
     s_item = lr0Item.create_new_item(a_grammar[0], "Kernel", 3, "Not-Reduce")
-    initial_state.add_item(s_item)
+    initial_state.item_l.append(s_item)
     lr0State.apply_closure(initial_state, s_item, grammar)
     lr0_states.append(initial_state)
 
@@ -88,7 +88,7 @@ def compute_slr0_parsing(grammar):
                 lr0_states.append(new_state)
                 for new_state_item in new_state_items:
                     if new_state_item not in new_state.item_l:
-                        new_state.add_item(new_state_item)
+                        new_state.item_l.append(new_state_item)
                     lr0State.apply_closure(new_state, new_state_item, grammar)
                 new_transition = Transition.create_new_transition(transition_counter, element, state.name, new_state.name)
                 transition_counter += 1
