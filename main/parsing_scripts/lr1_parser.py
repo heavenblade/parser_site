@@ -1,5 +1,5 @@
 from .classes_and_methods import isNonTerminal, isTerminal, collect_nonTerminal_symbols, collect_terminal_symbols, compute_first, compute_follow, lr0Item, lr1Item, lr1State, Transition
-
+from .draw_graph import drawGraph
 
 def compute_lr1_parsing(grammar):
     # return declaration
