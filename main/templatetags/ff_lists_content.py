@@ -28,4 +28,5 @@ def check_multiply_defined(table):
             if (idx_col != 0):
                 if (len(table[idx_row][idx_col]) > 1):
                     mult_def = True
+                    break
     return mult_def

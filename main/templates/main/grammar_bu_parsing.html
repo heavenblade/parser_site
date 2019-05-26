@@ -1,5 +1,6 @@
 {% extends "main/home.html" %}
 
+{% load static %}
 {% load ff_lists_content %}
 
 {% block content %}
@@ -33,25 +34,13 @@
                 {% endif %}
             {% else %}
                 {% if grammar.grammar_used_parser == "lr0" %}
-                    <div>
-                        <h5 id="parsing_res">The grammar is LR(0)</h5>
-                        <button type="submit" class="btn btn-primary" id="view_automaton_btn">View the graph!</button>
-                    </div>
+                    <h5 id="parsing_res">The grammar is LR(0)</h5>
                 {% elif grammar.grammar_used_parser == "slr0" %}
-                    <div>
-                        <h5 id="parsing_res">The grammar is SLR(0)</h5>
-                        <button type="submit" class="btn btn-primary" id="view_automaton_btn">View the graph!</button>
-                    </div>
+                    <h5 id="parsing_res">The grammar is SLR(0)</h5>
                 {% elif grammar.grammar_used_parser == "lr1" %}
-                    <div>
-                        <h5 id="parsing_res">The grammar is LR(1)</h5>
-                        <button type="submit" class="btn btn-primary" id="view_automaton_btn">View the graph!</button>
-                    </div>
+                    <h5 id="parsing_res">The grammar is LR(1)</h5>
                 {% elif grammar.grammar_used_parser == "lalr1" %}
-                    <div>
-                        <h5 id="parsing_res">The grammar is LALR(1)</h5>
-                        <button type="submit" class="btn btn-primary" id="view_automaton_btn">View the graph!</button>
-                    </div>
+                    <h5 id="parsing_res">The grammar is LALR(1)</h5>
                 {% endif %}
             {% endif %}
             <br>
@@ -100,5 +89,7 @@
                     </tr>
                 {% endfor %}
         </table>
+        <h5>State diagram</h5>
+        <img src="{% static 'img/graphs/' %}graph_{{grammar.id}}.png" id="state_diagram">
     </div>
 {% endblock %}

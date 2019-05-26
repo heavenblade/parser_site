@@ -20,6 +20,9 @@ class Grammar(models.Model):
     def __str__(self):
         return(self.grammar_productions)
 
+    def get_grammar_id(self):
+        return(self.id)
+
     def productions_as_list(self):
         return(self.grammar_productions.split('\r\n'))
 

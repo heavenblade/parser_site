@@ -374,8 +374,6 @@ label {
     display: inline;
 }
 
-#view_automaton_btn {
-    display: inline;
-    width: 170px;
-    margin-left: 1rem;
+#state_diagram {
+    margin-bottom: 200px;
 }

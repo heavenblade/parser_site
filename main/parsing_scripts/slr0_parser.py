@@ -99,6 +99,8 @@ def compute_slr0_parsing(grammar):
                 transition_counter += 1
                 if new_transition not in transitions:
                     transitions.append(new_transition)
+
+    graph = drawGraph(lr0_states, transitions, '0')
     '''
     print("LR(0)-states:")
     for state in lr0_states:
@@ -184,4 +186,4 @@ def compute_slr0_parsing(grammar):
                                     if len(new_entry) > 0:
                                         table[state.name][idx2].append(new_entry)
 
-    return table, terminals, non_terminal_names, non_terminals, first_set, follow_set
+    return table, terminals, non_terminal_names, non_terminals, first_set, follow_set, graph
