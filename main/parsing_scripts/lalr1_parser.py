@@ -137,39 +137,10 @@ def compute_lalr1_parsing(grammar):
             finished_solving = True
         else:
             finished_solving = False
-    '''
-    for rec_eq in rec_equations:
-        print(rec_eq.name + " =", rec_eq.symbol_list)
-    print("LALR(1)-states:")
-    for state in lr0_states:
-        print("State " + str(state.name) + ":")
-        for element in state.item_l:
-            prod_to_print = ""
-            prod_to_print += element.production[:3]
-            if (element.isReduceItem == "Reduce"):
-                if (element.production[3] == "#"):
-                    prod_to_print += "."
-                else:
-                    prod_to_print += element.production[3:]
-                    prod_to_print += "."
-            else:
-                idx = 3
-                dot_added = False
-                while (idx < len(element.production)):
-                    if (idx != element.dot):
-                        prod_to_print += element.production[idx]
-                        idx += 1
-                    elif (idx == element.dot and not dot_added):
-                        prod_to_print += "."
-                        prod_to_print += element.production[idx]
-                        dot_added = True
-                    else:
-                        idx += 1
-            print(prod_to_print + ", " + element.type + ", " + element.isReduceItem + ",", element.set_of_rec_equations[0].symbol_list)
-    print("LALR(1)-transitions:")
-    for transition in transitions:
-        print(transition.name, transition.element, transition.starting_state, transition.ending_state)
-    '''
+
+    # automaton creation
+    graph = drawGraph(lr0_states, transitions, '1', 'lalr')
+
     # table creation
     header = []
     header.append('States')
@@ -218,4 +189,4 @@ def compute_lalr1_parsing(grammar):
                                 if len(new_entry) > 0:
                                     table[state.name][idx2].append(new_entry)
 
-    return table, terminals, non_terminal_names, non_terminals, first_set, follow_set
+    return table, terminals, non_terminal_names, non_terminals, first_set, follow_set, graph

@@ -101,38 +101,9 @@ def compute_lr1_parsing(grammar):
                 if new_transition not in transitions:
                     transitions.append(new_transition)
 
+    # automaton creation
     graph = drawGraph(lr1_states, transitions, '1')
-    '''
-    print("LR(1)-states:")
-    for state in lr1_states:
-        print("State " + str(state.name) + ":")
-        for element in state.item_l:
-            prod_to_print = ""
-            prod_to_print += element.production[:3]
-            if element.isReduceItem == "Reduce":
-                if element.production[3] == "#":
-                    prod_to_print += "."
-                else:
-                    prod_to_print += element.production[3:]
-                    prod_to_print += "."
-            else:
-                idx = 3
-                dot_added = False
-                while (idx < len(element.production)):
-                    if idx != element.dot:
-                        prod_to_print += element.production[idx]
-                        idx += 1
-                    elif idx == element.dot and not dot_added:
-                        prod_to_print += "."
-                        prod_to_print += element.production[idx]
-                        dot_added = True
-                    else:
-                        idx += 1
-            print(prod_to_print + ", " + element.type + ", " + element.isReduceItem + ",", element.lookAhead)
-    print("LR(1)-transitions:")
-    for transition in transitions:
-        print(transition.name,  transition.element, transition.starting_state, transition.ending_state)
-    '''
+
     # table creation
     header = []
     header.append('States')

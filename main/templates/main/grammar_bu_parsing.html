@@ -63,7 +63,7 @@
         </div>
     </div>
     <div class="container" id="parsing_content">
-        <h5>Parsing table</h5>
+        <h5 id="table_title">Parsing table</h5>
         <table class="table table-bordered" id="first_and_follow_table">
             <thead>
                 <tr>
@@ -89,7 +89,7 @@
                     </tr>
                 {% endfor %}
         </table>
-        <h5>State diagram</h5>
+        <h5 id="diagram_title">State diagram</h5>
         <img src="{% static 'img/graphs/' %}graph_{{grammar.id}}.png" id="state_diagram">
     </div>
 {% endblock %}

@@ -1,10 +1,9 @@
 from graphviz import Digraph
 
-def drawGraph(states, transitions, type):
+def drawGraph(states, transitions, type, subtype = None):
     dot = Digraph(comment = "Automaton", format = "png")
     dot.graph_attr['rankdir'] = 'LR'
-    dot.graph_attr['fontname'] = 'Helvetica'
-    dot.graph_attr['fontsize'] = '12'
+    dot.graph_attr['Gdpi'] = '500'
 
     if type == '0':
         # cycle on states for the nodes
@@ -33,7 +32,7 @@ def drawGraph(states, transitions, type):
                         else:
                             idx += 1
                 items.append(prod_to_print)
-            dot.node(str(state.name), '\n'.join(items))
+            dot.node(str(state.name), '\n'.join(items), fontname = "consolas")
     elif type == '1':
             # cycle on states for the nodes
             for state in states:
@@ -60,13 +59,16 @@ def drawGraph(states, transitions, type):
                                 dot_added = True
                             else:
                                 idx += 1
-                    lookaheads = ', [' + ','.join(item.lookAhead) + ']'
+                    if subtype is None:
+                        lookaheads = ', [' + ','.join(item.lookAhead) + ']'
+                    else:
+                        lookaheads = ', [' + ','.join(item.set_of_rec_equations[0].symbol_list) + ']'
                     prod_to_print += lookaheads
                     items.append(prod_to_print)
-                dot.node(str(state.name), '\n'.join(items))
+                dot.node(str(state.name), '\n'.join(items), fontname = "consolas")
 
     # cycle on transitions for arrows
     for transition in transitions:
-        dot.edge(str(transition.starting_state), str(transition.ending_state), transition.element)
+        dot.edge(str(transition.starting_state), str(transition.ending_state), transition.element, fontname = "consolas")
 
     return(dot)

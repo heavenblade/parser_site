@@ -370,8 +370,22 @@ label {
     font-size: 1.25rem;
 }
 
+#table_title {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+#first_and_follow_table {
+    margin-top: 0.5rem;
+}
+
 #parsing_res {
     display: inline;
+}
+
+#diagram_title {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
 }
 
 #state_diagram {

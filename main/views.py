@@ -181,15 +181,15 @@ def lalr1_parser(request):
                 processed_grammar = []
                 for production in lalr1_form.cleaned_data['grammar_productions'].split('\r\n'):
                     processed_grammar.append([production])
-                table, terminals, nonTerminals, non_terminals_obj, first_set, follow_set = compute_lalr1_parsing(processed_grammar)
+                table, terminals, nonTerminals, non_terminals_obj, first_set, follow_set, graph = compute_lalr1_parsing(processed_grammar)
                 lalr1_form.cleaned_data['grammar_terminal_symbols'] = terminals
                 lalr1_form.cleaned_data['grammar_nonTerminal_symbols'] = nonTerminals
                 lalr1_form.cleaned_data['grammar_first_set'] = first_set
                 lalr1_form.cleaned_data['grammar_follow_set'] = follow_set
                 lalr1_form.cleaned_data['grammar_parsing_table_entries'] = table
                 grammar = lalr1_form.save()
-                # os.environ["PATH"] += os.pathsep + 'C:/Users/MAmatori/Downloads/graphviz-2.38/release/bin'
-                # graph.render('C:/Users/MAmatori/Documents/repo_parsers/parser_site/main/static/img/graphs/graph_' + str(grammar.id), view = False, format = "png")
+                os.environ["PATH"] += os.pathsep + 'C:/Users/MAmatori/Downloads/graphviz-2.38/release/bin'
+                graph.render('C:/Users/MAmatori/Documents/repo_parsers/parser_site/main/static/img/graphs/graph_' + str(grammar.id), view = False, format = "png")
             else:
                 grammar = Grammar.objects.get(grammar_productions = lalr1_form.cleaned_data['grammar_productions'], grammar_used_parser = 'lalr1')
             return(redirect('/lalr1-parser/parsing-grammar-' + str(grammar.id)))
