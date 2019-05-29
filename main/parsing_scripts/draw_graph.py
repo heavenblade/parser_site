@@ -32,7 +32,7 @@ def drawGraph(states, transitions, type, subtype = None):
                         else:
                             idx += 1
                 items.append(prod_to_print)
-            dot.node(str(state.name), '\n'.join(items), fontname = "consolas")
+            dot.node(str(state.name), '\n'.join(items), xlabel = 'S' + str(state.name), fontname = "consolas")
     elif type == '1':
             # cycle on states for the nodes
             for state in states:
@@ -65,7 +65,7 @@ def drawGraph(states, transitions, type, subtype = None):
                         lookaheads = ', [' + ','.join(item.set_of_rec_equations[0].symbol_list) + ']'
                     prod_to_print += lookaheads
                     items.append(prod_to_print)
-                dot.node(str(state.name), '\n'.join(items), fontname = "consolas")
+                dot.node(str(state.name), '\n'.join(items),  xlabel = 'S' + str(state.name), fontname = "consolas")
 
     # cycle on transitions for arrows
     for transition in transitions:

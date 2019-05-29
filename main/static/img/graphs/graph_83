@@ -1,0 +1,30 @@
+// Automaton
+digraph {
+	graph [Gdpi=500 rankdir=LR]
+	0 [label="Q->.S
+S->.OLD
+O->.os" fontname=consolas]
+	1 [label="Q->S." fontname=consolas]
+	2 [label="S->O.LD
+L->.eE" fontname=consolas]
+	3 [label="O->o.s" fontname=consolas]
+	4 [label="S->OL.D
+D->.aa" fontname=consolas]
+	5 [label="L->e.E
+E->." fontname=consolas]
+	6 [label="O->os." fontname=consolas]
+	7 [label="S->OLD." fontname=consolas]
+	8 [label="D->a.a" fontname=consolas]
+	9 [label="L->eE." fontname=consolas]
+	10 [label="D->aa." fontname=consolas]
+	0 -> 1 [label=S fontname=consolas]
+	0 -> 2 [label=O fontname=consolas]
+	0 -> 3 [label=o fontname=consolas]
+	2 -> 4 [label=L fontname=consolas]
+	2 -> 5 [label=e fontname=consolas]
+	3 -> 6 [label=s fontname=consolas]
+	4 -> 7 [label=D fontname=consolas]
+	4 -> 8 [label=a fontname=consolas]
+	5 -> 9 [label=E fontname=consolas]
+	8 -> 10 [label=a fontname=consolas]
+}
