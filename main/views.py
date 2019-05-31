@@ -89,7 +89,7 @@ def lr0_parser(request):
                 lr0_form.cleaned_data['grammar_follow_set'] = follow_set
                 lr0_form.cleaned_data['grammar_parsing_table_entries'] = table
                 grammar = lr0_form.save()
-                os.environ["PATH"] += os.pathsep + 'C:/Users/MAmatori/Downloads/graphviz-2.38/release/bin'
+                # os.environ["PATH"] += os.pathsep + 'C:/Users/MAmatori/Downloads/graphviz-2.38/release/bin'
                 graph.render('/home/pi/Documents/parser_site/main/static/img/graphs/graph_' + str(grammar.id), view = False, format = "png")
                 os.remove('/home/pi/Documents/parser_site/main/static/img/graphs/graph_' + str(grammar.id))
             else:
@@ -124,8 +124,8 @@ def slr0_parser(request):
                 slr0_form.cleaned_data['grammar_parsing_table_entries'] = table
                 grammar = slr0_form.save()
                 # os.environ["PATH"] += os.pathsep + 'C:/Users/MAmatori/Downloads/graphviz-2.38/release/bin'
-                graph.render('/home/pi/Documents/repo_parsers/parser_site/main/static/img/graphs/graph_' + str(grammar.id), view = False, format = "png")
-                os.remove('/home/pi/Documents/repo_parsers/parser_site/main/static/img/graphs/graph_' + str(grammar.id))
+                graph.render('/home/pi/Documents/parser_site/main/static/img/graphs/graph_' + str(grammar.id), view = False, format = "png")
+                os.remove('/home/pi/Documents/parser_site/main/static/img/graphs/graph_' + str(grammar.id))
             else:
                 grammar = Grammar.objects.get(grammar_productions = slr0_form.cleaned_data['grammar_productions'], grammar_used_parser = 'slr0')
             return(redirect('/slr0-parser/parsing-grammar-' + str(grammar.id)))
@@ -158,8 +158,8 @@ def lr1_parser(request):
                 lr1_form.cleaned_data['grammar_parsing_table_entries'] = table
                 grammar = lr1_form.save()
                 # os.environ["PATH"] += os.pathsep + 'C:/Users/MAmatori/Downloads/graphviz-2.38/release/bin'
-                graph.render('/home/pi/Documents/repo_parsers/parser_site/main/static/img/graphs/graph_' + str(grammar.id), view = False, format = "png")
-                os.remove('/home/pi/Documents/repo_parsers/parser_site/main/static/img/graphs/graph_' + str(grammar.id))
+                graph.render('/home/pi/Documents/parser_site/main/static/img/graphs/graph_' + str(grammar.id), view = False, format = "png")
+                os.remove('/home/pi/Documents/parser_site/main/static/img/graphs/graph_' + str(grammar.id))
             else:
                 grammar = Grammar.objects.get(grammar_productions = lr1_form.cleaned_data['grammar_productions'], grammar_used_parser = 'lr1')
             return(redirect('/lr1-parser/parsing-grammar-' + str(grammar.id)))
@@ -192,8 +192,8 @@ def lalr1_parser(request):
                 lalr1_form.cleaned_data['grammar_parsing_table_entries'] = table
                 grammar = lalr1_form.save()
                 # os.environ["PATH"] += os.pathsep + 'C:/Users/MAmatori/Downloads/graphviz-2.38/release/bin'
-                graph.render('/home/pi/Documents/repo_parsers/parser_site/main/static/img/graphs/graph_' + str(grammar.id), view = False, format = "png")
-                os.remove('/home/pi/Documents/repo_parsers/parser_site/main/static/img/graphs/graph_' + str(grammar.id))
+                graph.render('/home/pi/Documents/parser_site/main/static/img/graphs/graph_' + str(grammar.id), view = False, format = "png")
+                os.remove('/home/pi/Documents/parser_site/main/static/img/graphs/graph_' + str(grammar.id))
             else:
                 grammar = Grammar.objects.get(grammar_productions = lalr1_form.cleaned_data['grammar_productions'], grammar_used_parser = 'lalr1')
             return(redirect('/lalr1-parser/parsing-grammar-' + str(grammar.id)))
