@@ -46,7 +46,7 @@ a.custom-card:hover {
     position: absolute;
     top: 5rem !important;
     right: 1rem !important;
-    height: 70px;
+    height: 80px;
     width: 300px;
     overflow: hidden;
     font-size: .1rem;

@@ -25,18 +25,18 @@ def register(request):
         if (reg_form.is_valid()):
             user = reg_form.save()
             username = reg_form.cleaned_data.get('username')
-            messages.success(request, f"Welcome {username}")
+            messages.success(request, "Welcome " + username + "!")
             login(request, user)
             return(redirect("main:homepage"))
         else:
             for msg in reg_form.error_messages:
-                messages.error(request, f"{msg}:{reg_form.error_messages[msg]}")
+                messages.error(request, reg_form.error_messages[msg])
     reg_form = MyRegistrationForm
     return(render(request = request, template_name = "main/register.html", context = {"reg_form": reg_form}))
 
 def logout_request(request):
     logout(request)
-    messages.info(request, "Logged out successfully")
+    messages.info(request, "Logged out successfully!")
     return(redirect("main:homepage"))
 
 def login_request(request):
@@ -48,10 +48,10 @@ def login_request(request):
             user = authenticate(username = usr, password = pwd)
             if (user is not None):
                 login(request, user)
-                messages.success(request, f"You are now logged in as {usr}")
+                messages.success(request, "You are now logged in as " + usr + "!")
                 return(redirect("main:homepage"))
             else:
-                messages.error(request, f"Invalid username or password")
+                messages.error(request, "Invalid username or password!")
     log_form = AuthenticationForm()
     return(render(request = request, template_name = "main/login.html", context = {"form": log_form}))
 
@@ -96,7 +96,7 @@ def lr0_parser(request):
                 grammar = Grammar.objects.get(grammar_productions = lr0_form.cleaned_data['grammar_productions'], grammar_used_parser = 'lr0')
             return(redirect('/lr0-parser/parsing-grammar-' + str(grammar.id)))
         else:
-            messages.error(request, f"Please insert a grammar")
+            messages.error(request, "Please insert a valid grammar!")
     return(render(request = request, template_name = "main/lr0_parser_page.html", context = {"form": lr0_form, "grammar": grammar}))
 
 def slr0_parser(request):
@@ -130,7 +130,7 @@ def slr0_parser(request):
                 grammar = Grammar.objects.get(grammar_productions = slr0_form.cleaned_data['grammar_productions'], grammar_used_parser = 'slr0')
             return(redirect('/slr0-parser/parsing-grammar-' + str(grammar.id)))
         else:
-            messages.error(request, f"Please insert a grammar")
+            messages.error(request, "Please insert a valid grammar!")
     return(render(request = request, template_name = "main/slr0_parser_page.html", context = {"form": slr0_form, "grammar": grammar}))
 
 def lr1_parser(request):
@@ -164,7 +164,7 @@ def lr1_parser(request):
                 grammar = Grammar.objects.get(grammar_productions = lr1_form.cleaned_data['grammar_productions'], grammar_used_parser = 'lr1')
             return(redirect('/lr1-parser/parsing-grammar-' + str(grammar.id)))
         else:
-            messages.error(request, f"Please insert a grammar")
+            messages.error(request, "Please insert a valid grammar!")
     return(render(request = request, template_name = "main/lr1_parser_page.html", context = {"form": lr1_form, "grammar": grammar}))
 
 def lalr1_parser(request):
@@ -198,7 +198,7 @@ def lalr1_parser(request):
                 grammar = Grammar.objects.get(grammar_productions = lalr1_form.cleaned_data['grammar_productions'], grammar_used_parser = 'lalr1')
             return(redirect('/lalr1-parser/parsing-grammar-' + str(grammar.id)))
         else:
-            messages.error(request, f"Please insert a grammar")
+            messages.error(request, "Please insert a valid grammar!")
     return(render(request = request, template_name = "main/lalr1_parser_page.html", context = {"form": lalr1_form, "grammar": grammar}))
 
 def ll1_parser(request):
@@ -229,7 +229,7 @@ def ll1_parser(request):
                 grammar = Grammar.objects.get(grammar_productions = ll1_form.cleaned_data['grammar_productions'], grammar_used_parser = 'll1')
             return(redirect('/ll1-parser/parsing-grammar-' + str(grammar.id)))
         else:
-            messages.error(request, f"Please insert a grammar")
+            messages.error(request, "Please insert a valid grammar!")
     return(render(request = request, template_name = "main/ll1_parser_page.html", context = {"form": ll1_form, "grammar": grammar}))
 
 def dyn_grammar_bu_parsing(request, grammar_id):
