@@ -1,13 +1,35 @@
 /* Classes styles */
 .card {
-    width: 20rem;
+    height: 9rem;
+    width: 21rem;
     border: 1px solid rgba(0,0,0,.1);
     border-radius: .5rem;
     box-shadow: 0.1rem 0.50rem 0.75rem rgba(0,0,0,.2);
+    overflow: hidden;
 }
 
-.card-link {
-    float: right;
+.card-body {
+    position: relative;
+    z-index: 1;
+}
+
+.card-body:after {
+    z-index: -1;
+    position: absolute;
+    left: 0;
+    top: -30;
+    content: url('/static/img/graph.png');
+    opacity: 0.3;
+}
+
+a.custom-card {
+    color: black;
+    text-decoration: none;
+}
+
+a.custom-card:hover {
+    color: black;
+    text-decoration: none;
 }
 
 .navbar-brand {
@@ -24,7 +46,7 @@
     position: absolute;
     top: 5rem !important;
     right: 1rem !important;
-    height: 70px;
+    height: 80px;
     width: 300px;
     overflow: hidden;
     font-size: .1rem;
@@ -41,7 +63,131 @@
     padding-top: 25px;
 }
 
+.helptext {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 1.5rem;
+}
+
+.btn-user-page {
+    width: -webkit-fill-available;
+    height: inherit;
+    cursor: pointer;
+}
+
+.btn-parser-page {
+    width: 170px;
+    position: absolute;
+    margin-left: 30px;
+    margin-top: 100px;
+    cursor: pointer;
+}
+
+.title-parser-page {
+    margin-bottom: 2rem;
+}
+
+/* Tags styles */
+
+label {
+    font-size: 18px;
+}
+
 /* Single elements styles */
+
+/* Homepage */
+#page_content_container {
+    display: flex;
+}
+
+#bottom_up_title {
+    position: absolute;
+    top: 10%;
+}
+
+#bottom_up_cards {
+    position: absolute;
+    left: 30%;
+    top: 15%;
+}
+
+#top_down_title {
+    position: absolute;
+    top: 62%;
+}
+
+#top_down_cards {
+    position: absolute;
+    top: 67%;
+    left: 30%;
+}
+
+#lr0-card-div {
+    padding: 20px;
+}
+
+#lr0_card_button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 120px;
+    cursor: pointer;
+}
+
+#slr0-card-div {
+    padding: 20px;
+}
+
+#slr0_card_button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 120px;
+    cursor: pointer;
+}
+
+#lr1-card-div {
+    padding: 20px;
+}
+
+#lr1_card_button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 120px;
+    cursor: pointer;
+}
+
+#lalr1-card-div {
+    padding: 20px;
+}
+
+#lalr1_card_button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 120px;
+    cursor: pointer;
+}
+
+#ll1-card-div {
+    padding: 20px;
+}
+
+#ll1_card_button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 120px;
+    cursor: pointer;
+}
+
+#close-message-button {
+    padding-right: 8px;
+    padding-top: 3px;
+}
+
+/* Navbar */
 #my_navbar {
     background-color: #71dab8 !important;
 }
@@ -55,28 +201,193 @@
     padding-left: 0;
 }
 
-#close-message-button {
-    padding-right: 8px;
-    padding-top: 3px;
-
+/* Insert grammar page */
+#lr0_content_container {
+    text-align: center;
 }
 
-#lr0-card-div {
-    padding: 20px;
+#slr0_content_container {
+    text-align: center;
 }
 
-#slr0-card-div {
-    padding: 20px;
+#lr1_content_container {
+    text-align: center;
 }
 
-#lr1-card-div {
-    padding: 20px;
+#lalr1_content_container {
+    text-align: center;
 }
 
-#lalr1-card-div {
-    padding: 20px;
+#ll1_content_container {
+    text-align: center;
 }
 
-#ll1-card-div {
-    padding: 20px;
+/* Login page */
+#login_page_content {
+    position: absolute;
+    margin-top: 1rem;
+    left: 38%;
+    top: 10%
+}
+
+#id_password {
+    border-radius: 5px;
+    border-width: 1px;
+    display: block;
+    width: 100%;
+    font-size: 22px;
+    margin-bottom: 1.5rem;
+    padding: 5px;
+}
+
+#id_password:focus {
+    outline: -webkit-focus-ring-color auto 0px !important;
+}
+
+#login_gridCheck {
+    margin-top: .4rem;
+    margin-left: 0;
+}
+
+#login_gridCheck_label {
+    margin-left: 1.3rem;
+}
+
+#login_submit_button {
+    width: 150;
+    float: right;
+}
+
+/* Sign-up page */
+#register_page_content {
+    position: absolute;
+    margin-top: 1rem;
+    left: 38%;
+    top: 10%;
+}
+
+#id_username {
+    border-radius: 5px;
+    border-width: 1px;
+    display: block;
+    width: 100%;
+    font-size: 22px;
+    margin-bottom: 1.5rem;
+    padding: 5px;
+}
+
+#id_username:focus {
+    outline: -webkit-focus-ring-color auto 0px !important;
+}
+
+#id_email {
+    border-radius: 5px;
+    border-width: 1px;
+    display: block;
+    width: 100%;
+    font-size: 22px;
+    margin-bottom: 1.5rem;
+    padding: 5px;
+}
+
+#id_email:focus {
+    outline: -webkit-focus-ring-color auto 0px !important;
+}
+
+#id_password1 {
+    border-radius: 5px;
+    border-width: 1px;
+    display: block;
+    width: 100%;
+    font-size: 22px;
+    padding: 5px;
+}
+
+#id_password1:focus {
+    outline: -webkit-focus-ring-color auto 0px !important;
+}
+
+#id_password2 {
+    border-radius: 5px;
+    border-width: 1px;
+    display: block;
+    width: 100%;
+    font-size: 22px;
+    padding: 5px;
+}
+
+#id_password2:focus {
+    outline: -webkit-focus-ring-color auto 0px !important;
+}
+
+#register_gridCheck {
+    margin-top: .4rem;
+    margin-left: 0;
+}
+
+#register_gridCheck_label {
+    margin-left: 1.3rem;
+}
+
+#register_submit_button {
+    width: 150;
+    float: right;
+}
+
+/* User page */
+#avatar_group {
+    display: inline;
+}
+
+#user_avatar {
+    height: 12rem;
+    display: inline;
+}
+
+#upload_new_avatar {
+    height: 4rem;
+    display: inline;
+    z-index: 2;
+    margin-left: -50px;
+    margin-bottom: -130px;
+    cursor: pointer;
+}
+
+#user_page_title {
+    display: inline;
+    margin-left: 4rem;
+}
+
+/* About page */
+#about_content {
+    margin-left: 10rem;
+    margin-right: 10rem;
+}
+
+/* Parsers pages */
+#grammar_productions_div {
+    width: 20rem;
+    font-size: 1.25rem;
+}
+
+#table_title {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+#first_and_follow_table {
+    margin-top: 0.5rem;
+}
+
+#parsing_res {
+    display: inline;
+}
+
+#diagram_title {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+#state_diagram {
+    margin-bottom: 200px;
 }

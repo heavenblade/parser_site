@@ -1,0 +1,38 @@
+// Automaton
+digraph {
+	graph [fontname=Roboto rankdir=LR]
+	0 [label="Q->.S
+S->.AED
+A->.aae"]
+	1 [label="Q->S."]
+	2 [label="S->A.ED
+E->.EfC
+E->."]
+	3 [label="A->a.ae"]
+	4 [label="S->AE.D
+D->.Ds
+D->.
+E->E.fC"]
+	5 [label="A->aa.e"]
+	6 [label="S->AED.
+D->D.s"]
+	7 [label="E->Ef.C
+C->.dc"]
+	8 [label="A->aae."]
+	9 [label="D->Ds."]
+	10 [label="E->EfC."]
+	11 [label="C->d.c"]
+	12 [label="C->dc."]
+	0 -> 1 [label=S]
+	0 -> 2 [label=A]
+	0 -> 3 [label=a]
+	2 -> 4 [label=E]
+	3 -> 5 [label=a]
+	4 -> 6 [label=D]
+	4 -> 7 [label=f]
+	5 -> 8 [label=e]
+	6 -> 9 [label=s]
+	7 -> 10 [label=C]
+	7 -> 11 [label=d]
+	11 -> 12 [label=c]
+}

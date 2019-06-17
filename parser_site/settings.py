@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '%g5r=&cp*n@plb4%12w2wf(1kwd90#-y)!z5@@q3@-t_bpl!zh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'www.parsersproject.it', 'parsersproject.it']
 
 # Application definition
 
